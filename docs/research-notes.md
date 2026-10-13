@@ -190,3 +190,104 @@ work/
   `python work/tools/deploy.py --restore --game "D:/SteamLibrary/steamapps/common/Lego Indiana Jones 2"`
 - 游戏内抽查：`gui\Font\font_pc.fnt` = 5,600,520 字节（中文字体）；
   `stuff\text\text.csv` 列头含 `CHINESE`
+
+---
+
+## 9. 巴西葡语补丁的核实（2026-10-14）
+
+[Central de Traduções 的 PT-BR 补丁](https://www.centraldetraducoes.net.br/2024/06/traducao-do-lego-indiana-jones-2-pc.html)
+（2024-06-01，2.49 MB，Inno Setup 分发）是最有价值的外部参照 ——
+它的安装器里带着**官方工具**，且其说明文档直接印证了本项目的核心结论。
+
+### 9.1 官方工具 TtTools.exe
+
+`Traducao/tool/TtTools.{exe,dll,pdb}`（.NET 9 / WinForms，145 KB exe +
+21 KB dll）。从元数据字符串可确认它**不是自制工具**，而是 TT 自家
+Lego Text Extractor 的扩展：
+
+```
+; Lego Batman Text Extractor v1.0      ← 原始工具名
+; TTLB1Text                          ← TT 自己的文本格式标记
+TtTools - Ver 1.0 - Created By Joapeer @2024
+usage: TtTools.exe <code> [parameters]
+```
+
+| 项 | 值 |
+|---|---|
+| 支持游戏码 | `lb1`（乐高蝙蝠侠）、`lhp`（HP 1–7）、`lij1`、`lij2`、`lsw3`、`tcs`、`nxg` |
+| 子命令 | `ExtractDat` / `ReplaceDat` / `ExtractExeText` / **`InsertExeText`** / `ExtractMenu` / `Extract2` |
+| 内部类 | `TtDatHelper`、`TtTextHelper` |
+| 压缩 | 内置 LZ2K 解码（`Error to decompress LZ2K`）、`RNC_` |
+| 打包命令 | `TtTools.exe -r lij2 <输入目录> GAME2.DAT <输出 DAT>` |
+
+两个对本项目有直接意义的点：
+
+1. **`InsertExeText` 存在** —— 官方支持**改写 exe 内的文本**。本项目目前
+   改的是运行时内存里的指针、不碰 exe（Steam DRM 的 `.bind` 节可执行 +
+   `STEAM` 标记会校验文件）。官方走文件改写，说明这条路在技术上可行，
+   值得评估 —— 但要确认 Steam 版 exe 是否可安全改写而不触发校验。
+2. **官方工具的覆盖面广于本项目**。本项目 `tools/ttdat.py` 是独立逆向
+   （仅标准库、无需 .NET），优势是零依赖、便于脚本化；劣势是不如官方
+   工具完整。两者互补而非替代。
+
+### 9.2 独立印证：菜单文本确实不在 DAT
+
+葡语补丁的说明文档原文：
+
+> Alguns termos do Menu estão sem tradução porque estão no executável
+> do jogo.
+> （部分菜单项未翻译，因为它们在游戏可执行文件里。）
+
+这与本项目逆向出的结论**完全一致**：设置菜单英文硬编码在 exe
+`.data` 节的多语言指针表中（`0xAB09F0`–`0xAB17DC`，80 处指针 / 40 个
+标签）。核对其文件清单也印证了这一点 —— 补丁只投放到 DAT 内部路径
+（`GUI/FONT/`、`GUI/LEGAL/`、`GUI/TEXTURES/`、`stuff/text/`），
+**没有任何 exe 文件**。因此它同样没能汉化菜单。
+
+**本项目补上了菜单标签这一块**（见 README「菜单标签汉化」）。
+
+### 9.3 译文写在 AMERICAN 列，不是 ENGLISH 列
+
+逐列统计含葡语特征字符（`ãõçáéíóúâêôàü`）的行数：
+
+| 列名 | 原版 | PT-BR 补丁 | 增量 |
+|---|---|---|---|
+| ENGLISH | 1 | 1 | **+0** |
+| **AMERICAN** | 1 | 827 | **+826** |
+| GERMAN | 383 | 387 | +4 |
+| 其余列 | — | — | +0 |
+
+而按 LABEL 对齐后统计 `AMERICAN` 列**实际改动 1903 行**。
+即：葡语补丁**完全没有动 `ENGLISH` 列**，译文全写进 `AMERICAN` 列。
+
+这与 9.2 吻合 —— `ENGLISH` 列对应菜单，而菜单在 exe 里；游戏在
+非英语系统上取的其实是 `AMERICAN` 列的文本，所以把葡语填进
+`AMERICAN` 就能覆盖绝大多数界面文本，一行 exe 都不用改。
+
+**对本项目的直接价值**：
+
+- 该补丁 `AMERICAN` 列覆盖 **1903 行**，本项目 1860 行 → 其译文可作为
+  校对本项目漏译条目的对照底本
+- 本项目目前把中文同时写进 `CHINESE` 与 `ENGLISH` 两列。这个选择比
+  葡语补丁更稳（`ENGLISH` 列在任何语言环境下都是兜底），但也意味着
+  **若目标用户系统语言映射到非中文槽位，`ENGLISH` 列的中文会生效** ——
+  这正是我们想要的，可视为一个刻意的「无条件汉化」设计
+
+### 9.4 其他差异
+
+- **LOGO 未汉化**：补丁投了 `GUI/LEGAL/INDY2LOGO_US_NXG.TEX` 与
+  `GUI/TEXTURES/INDY2LOGO_ENGLISH_NXG.tex`（把标题 LOGO 译成
+  「A Aventura Continua」），本项目未处理，LOGO 仍为英文
+- **片尾字幕独立成文件**：补丁新增了 `english_credits.txt`（26,726 字节），
+  格式为 `<条目> <类别> <r> <g> <b>`（如 `company colour 1.0 1.00 1.0`）。
+  它没改 `english.txt`（与原版**逐字节相同**），而是另加一个带颜色参数的
+  字幕文件 —— 说明原版的 `english.txt` 里片尾部分不是纯文本，TT 的工具
+  需要单独的文件形态才能带颜色
+- **`font_chi` 槽位**：本项目在 `2.3` 提到 exe 有 id=19 的 Chinese 槽位
+  但无 `font_chi*` 文件。葡语补丁同样没有提供该字体文件
+- **安装器行为**：其 `install_script.iss` 里 `[Run]` 会
+  `xcopy` 把 `Backup\GAME.DAT` 复制到临时目录再打包 —— 即
+  **安装时依赖一份已存在的原版备份**，且从 `[Registry]` 看它写
+  `HKLM\Software\Central de Traduções`（需管理员）。本项目的
+  `安装.ps1` 已改为运行时 `GetSystemDirectoryW` 定位 + 自动备份，
+  不写注册表、不依赖预置备份

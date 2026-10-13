@@ -232,6 +232,45 @@ PC 版缺失了主机版才有的 `Audio_VO` 目录（角色跳跃、受伤、�
   与本项目在菜单汉化上踩到的**编码判定**问题同源：游戏 UI 文本管线吃
   UTF-8，而非常见的系统 ANSI；注入 GBK 会让整串变成 `'?'`。其补丁采用
   自解压安装器并自动定位游戏路径，本项目的安装脚本沿用了类似思路
+- [Tradução do LEGO Indiana Jones 2 – PC [PT-BR]](https://www.centraldetraducoes.net.br/2024/06/traducao-do-lego-indiana-jones-2-pc.html)
+  —— 巴西葡语补丁（2024-06-01，Central de Traduções 社团，主笔
+  **RevolutionJTG**，复核 **Joapeer**）。这是本项目**最直接的参照**：
+
+  - 它的说明文档写着「部分菜单项未翻译，因为它们在游戏可执行文件里」
+    —— 独立印证了本项目定位到的结论：菜单英文不在 DAT，而在 exe
+    `.data` 节的指针表里。它因此也没汉化菜单。
+  - 它用**官方工具** `TtTools.exe` 打包（`-r lij2 <in> GAME2.DAT
+    <out>`），比本项目从零写的 `tools/ttdat.py` 更权威，见下方技术点。
+  - 它**翻译了标题 LOGO 贴图**（`INDY2LOGO_ENGLISH_NXG.TEX` → 「A Aventura
+    Continua」），而本项目未做，LOGO 仍是英文。
+  - 覆盖面比本项目大：`AMERICAN` 列 1903 行已译；本项目 1860 行。
+    其译文可作为校对本项目漏译条目的对照底本。
+
+### 官方工具 TtTools
+
+葡语补丁里带的那份 `TtTools.exe`（.NET 9 / WinForms，含
+`TtTools.pdb`）**不是自制工具**，而是 Traveller's Tales 自家的
+Lego Text Extractor 的扩展：
+
+```
+; Lego Batman Text Extractor v1.0
+; TTLB1Text
+TtTools - Ver 1.0 - Created By Joapeer @2024
+usage: TtTools.exe <code> [parameters]
+```
+
+支持 `lb1`（乐高蝙蝠侠）、`lhp`（HP1–7）、`lij1`/`lij2`、`lsw3`、
+`tcs`、`nxg`，子命令含 `ExtractDat` / `ReplaceDat` / `ExtractExeText` /
+`**InsertExeText**` / `ExtractMenu` / `Extract2`。
+
+值得注意：`InsertExeText` 说明**官方工具支持改写 exe 里的文本**，且
+内置 LZ2K 解码（`Error to decompress LZ2K`、`RNC_`），与本项目逆向出的
+`.data` 节多语言指针表是同一片区域。本项目目前改的是内存里的指针、
+不碰 exe（Steam DRM 的 `.bind` 节会校验），而官方走的是文件改写 ——
+这条路值得评估。
+
+本项目 `tools/ttdat.py` 是独立逆向实现（仅标准库），优势是不依赖
+.NET 运行时、不需要安装器；劣势是不如官方工具覆盖面广。两者可互补。
 
 ### 权利声明
 
