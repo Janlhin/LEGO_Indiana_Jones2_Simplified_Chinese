@@ -130,9 +130,10 @@ LEGO_Indiana_Jones_2_CHS_v2.0.0/
 - **[AlubJ/lego-tt-nxg-formats](https://github.com/AlubJ/lego-tt-nxg-formats)** — NXG 引擎 NFNT/FT2 字体格式文档
 - **[Xentax Wiki](https://wiki.xentax.com/)** — TT Games 资源格式参考
 - **[Central de Traduções](https://www.centraldetraducoes.net.br/)（Joapeer 的巴西葡语翻译包）** — 提供了 PC 版 NXG 引擎字体（.FT2）路径与 TtTools 思路这一决定性线索
-- **俄语民间翻译包（LEGO_IndianaJones_2_RUS）** — 揭示了语言切换机制（语言后缀 DAT 文件）
-- **[PCGamingWiki](https://www.pcgamingwiki.com/)** — 语言设置（LanguageVal）、存档问题、角色语音修复 MOD 的文档
-- **Character Voice Restoration mod** — 角色语音修复文件的来源
+- **[Русификатор текста 1С (доработанный)](https://steamcommunity.com/sharedfiles/filedetails/?id=2385200498)（作者 Rusik，Steam 创意工坊，2021）** — 俄语本地化补丁。其作者修掉的「部分字母与单词显示成问号」问题，与本汉化在菜单标签上遇到的问题**同源**：游戏 UI 文本管线吃 UTF-8 而非系统 ANSI，注入 GBK 会让整串变成问号。其「安装器自动定位游戏路径」的做法也是本安装脚本的参考
+- **[PCGamingWiki — Lego Indiana Jones 2](https://www.pcgamingwiki.com/wiki/Lego_Indiana_Jones_2:_The_Adventure_Continues)** — 语言切换机制（`language_setup.ini` + 注册表 `LanguageVal`）、存档路径、高帧率崩溃、刷新率修正等技术档案
+- **[Character Voice Restoration mod for Lego Indy 2](https://community.pcgamingwiki.com/files/file/2595-character-voice-restoration-mod-for-lego-indy-2/)（原始 mod 作者 Bario The Weird，PCGamingWiki 社区页由 SirYodaJedi 于 2023-03-08 提交）** — **本补丁 46 个角色语音文件（8 个角色目录，跳跃/受伤/攻击/死亡）的来源**。PC 版缺失了主机版才有的 `Audio_VO` 目录，此 mod 予以还原：主体音效取自 `Lego Indy 1` 的未压缩 WAV，`Donovan` 与 `Spalko` 两目录由 Wii 版的压缩 DSP 转码而来。本补丁沿用同一批文件，安装方式为直接覆盖，无需解包 DAT
+  > 若你购买的是 **GOG.com 版**，官方自 2025-02-27 起已内置还原语音，可跳过这一步
 - **游民星空（Gamersky）** — 最初的《乐高侏罗纪世界》汉化包参考
 - **微软雅黑 / 楷体（Microsoft YaHei / KaiTi）** — 中文字形来源
 

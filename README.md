@@ -143,9 +143,42 @@ python tools/fix_font_coverage.py
 
 ## 致谢
 
+### 角色语音还原
+
+PC 版缺失了主机版才有的 `Audio_VO` 目录（角色跳跃、受伤、攻击、死亡
+时的咕哝声）。这部分语音的还原方案来自 PCGamingWiki 社区：
+
+- **[Character Voice Restoration mod for Lego Indy 2](https://community.pcgamingwiki.com/files/file/2595-character-voice-restoration-mod-for-lego-indy-2/)**
+  —— 原始 mod 由 **Bario The Weird** 制作，PCGamingWiki 社区页由
+  **SirYodaJedi** 于 2023-03-08 提交（2023-03-10 更新，968.9 kB，
+  6,144 次浏览）。它还原了主机版有、PC 版缺失的角色 vocal grunt；
+  主体音效取自 `Lego Indy 1` 的未压缩 WAV，`Donovan` 与 `Spalko`
+  两个目录则由 Wii 版 `Lego Indy 2` 的压缩 DSP 转码而来
+
+本项目的语音修复沿用同一批文件（46 个，8 个角色目录），安装方式为直接
+覆盖 —— 无需解包 DAT，这也是 PCGamingWiki 主页面特别强调的一点。
+[GOG.com 版](https://www.pcgamingwiki.com/wiki/Lego_Indiana_Jones_2:_The_Adventure_Continues)
+自 2025-02-27 起已内置还原语音，购买 GOG 版可省去这一步。
+
+### 格式研究
+
+- [PCGamingWiki — Lego Indiana Jones 2: The Adventure Continues](https://www.pcgamingwiki.com/wiki/Lego_Indiana_Jones_2:_The_Adventure_Continues)
+  —— 社区维护的游戏技术档案（配置路径、语言切换机制、高帧率崩溃、
+  刷新率修正等），页面内容以 CC BY-NC-SA 授权
 - Traveller's Tales 的 NXG 引擎与 [lego-tt-nxg-formats](https://github.com/tygerx/lego-tt-nxg-formats)
   社区对格式的公开研究
-- 原作的剧情、美术与配音由其各自权利方所有
+- [Русификатор текста 1С (доработанный)](https://steamcommunity.com/sharedfiles/filedetails/?id=2385200498)
+  —— Steam 创意工坊上作者 **Rusik** 改进官方 1С 俄语本地化的补丁
+  （2021，83 条评价）。作者修掉的「部分字母与单词显示成问号」问题，
+  与本项目在菜单汉化上踩到的**编码判定**问题同源：游戏 UI 文本管线吃
+  UTF-8，而非常见的系统 ANSI；注入 GBK 会让整串变成 `'?'`。其补丁采用
+  自解压安装器并自动定位游戏路径，本项目的安装脚本沿用了类似思路
+
+### 权利声明
+
+原作的剧情、美术、字体与配音由 Traveller's Tales /
+Warner Bros. Interactive Entertainment 及各配音演员的权利方所有。
+本项目与其致谢对象均不提供、不分发任何游戏原始素材。
 
 ## 许可
 
