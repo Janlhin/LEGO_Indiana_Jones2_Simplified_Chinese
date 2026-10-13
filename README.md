@@ -7,9 +7,12 @@ Continues，2009，Traveller's Tales）简体中文本地化工程。
 中文系统下的存档修复。工具链为纯 Python 标准库 + ctypes，唯一需要外部
 依赖的是编译代理 DLL 用的 MinGW。
 
-> **本仓库不含任何游戏素材。** `GAME.dat` / `GAME2.dat`、原始文本、
-> 字体、音频等均未入库，也不会提供下载。请自行通过 Steam 购买正版
-> 游戏，工具只在你已合法拥有的副本上工作。详见 [LICENSE](LICENSE)。
+> **本仓库不含完整的游戏 DAT。** `GAME.dat` / `GAME2.dat`（各约 1 GB）
+> 不入库 —— 它们 99.5% 是原版素材，且远超 GitHub 单文件 100 MB 上限。
+> 唯一的例外是 [`assets/fonts/`](assets/fonts/)：17.4 MB 改写后的字体与
+> 文本索引，让持有正版的玩家不必重做格式逆向。它们**仍属权利方素材，
+> 不在 MIT 授权范围内**。请自行通过 Steam 购买正版游戏。
+> 详见 [LICENSE](LICENSE)。
 
 ---
 
@@ -25,6 +28,59 @@ Continues，2009，Traveller's Tales）简体中文本地化工程。
 | **资源格式逆向** | MkDat v4.0 归档结构、NFNT/FT2 字体结构（含内嵌 DXT5 DDS 图集）、`.GIP` 菜单包 |
 | **汉化** | 1927+ 行文本翻译、中文字体栅格化与图集打包、设置菜单标签 |
 | **运行时补丁** | `d3d9.dll` 代理：文件 API 代码页修复 + 菜单字符串指针重定向 |
+
+### 已汉化的文本
+
+[`translations/text.csv`](translations/text.csv) 就是打进 DAT 的那份文本表
+本体，**UTF-8 with BOM**，2124 行有效数据、16 列。游戏按平台读取对应语言列，
+我们把简体中文写进 `CHINESE` 列，同时把 `ENGLISH` 一列同步覆盖（部分调用点
+按英语列取值）。
+
+```bash
+# 看看汉化覆盖率与长什么样
+python - <<'PY'
+import csv, io
+rows = [r for r in csv.reader(io.StringIO(
+    open('translations/text.csv', encoding='utf-8-sig').read())) if len(r) == 16]
+head = rows[0]
+zh = sum(1 for r in rows[1:]
+         if any('一' <= c <= '鿿' for c in r[head.index('ENGLISH')]))
+print(f'{zh} / {len(rows)-1} 行已汉化')
+for r in rows[1:5]:
+    print(r[head.index('ENGLISH')])
+PY
+```
+
+当前 1952 行已汉化、171 行仍是西文（未收录的条目会回落到英文原文，不影响
+游戏运行）。
+
+### 字体资产
+
+汉化必须重写游戏字体（游戏渲染中文只认自带的位图字体，不认系统字体）。
+[`assets/fonts/`](assets/fonts/) 存放改写后的字体与文本索引，**17.4 MB**，
+免去持有正版的玩家重做一遍格式逆向。逐字节原样入库（`.gitattributes` 里标了
+`-text`），详见该目录的 [README](assets/fonts/README.md)。
+
+### 关于两个 DAT
+
+改动其实极小 —— 全部汉化只碰了 **12 个文件**：
+
+| DAT | 文件数 | 原始体积 | 改动文件 | 改动量 |
+|---|---|---|---|---|
+| `GAME.dat` | 7659 | 1849.5 MB | 3 | 8.8 MB（0.47%） |
+| `GAME2.dat` | 1237 | 1526.1 MB | 9 | 19.8 MB（1.30%） |
+
+两个 DAT 本身**不入库**，原因是技术上的硬限制而非选择：
+
+- GitHub 单文件上限 **100 MB**，超了直接拒绝 push（不是警告）。两个 DAT
+  分别是 981 MB 和 925 MB
+- Git LFS 单文件能到 2 GB，但**免费账户只有 1 GB 存储 + 1 GB/月带宽**，
+  1.9 GB 装不下，得付费
+- GitHub Release 附件上限 2 GB 且不计入仓库体积，但那是「分发」，
+  不是「仓库内容」，也不适合当上游依赖
+
+所以要么各自跑工具在自己的正版副本上重建（推荐，本来就该如此），
+要么自行解决存储与托管。仓库提供的是**原料 + 工具**，不是 2 GB 的成品。
 
 ---
 
@@ -65,6 +121,9 @@ gcc -m32 -O2 -shared -o d3d9.dll d3d9proxy.c d3d9.def \
 │   └── ui_patch.h          由 gen_ui_patch.py 生成，勿手改
 ├── tools/                84 个 Python 工具（标准库 + ctypes，无三方依赖）
 ├── translations/         译文表（KEY → 简体中文）
+│   ├── translations*.py     分模块的译文字典（构建脚本读这三个）
+│   └── text.csv             **汉化后的游戏文本表本体**（可直接查看/审校）
+├── assets/fonts/         改写后的字体与文本索引（17.4 MB，非 MIT）
 ├── patch/                分发包骨架：安装/卸载脚本与用户文档
 │   └── payload/            运行时数据（DAT、DLL 在此生成，不入库）
 └── docs/                 逆向笔记与踩坑记录
@@ -178,7 +237,21 @@ PC 版缺失了主机版才有的 `Audio_VO` 目录（角色跳跃、受伤、�
 
 原作的剧情、美术、字体与配音由 Traveller's Tales /
 Warner Bros. Interactive Entertainment 及各配音演员的权利方所有。
-本项目与其致谢对象均不提供、不分发任何游戏原始素材。
+
+本仓库**入库的文件**分两类，性质完全不同：
+
+| 类别 | 文件 | 授权 |
+|---|---|---|
+| 源代码与文档 | `src/` `tools/` `translations/translations*.py` `translations/text.csv` `patch/` `docs/` | [MIT](LICENSE) |
+| 从正版游戏 DAT 中提取的素材 | `assets/fonts/`（见下节） | **不授权**，仅供持有正版者自行重建 |
+
+汉化需要重写游戏字体（FT2 / FNT），而这些字体文件本身是从原版 DAT 中
+提取的二进制，**著作权属于权利方，MIT 许可覆盖不到它们**。放在仓库里
+是为了让持有正版的玩家不必自己逆向一遍，不构成对原作品权的授权或转让。
+
+两个 DAT（`GAME.dat` 981 MB / `GAME2.dat` 925 MB）**不入库**，原因有二：
+① 它们 99.5% 是原版游戏素材，MIT 同样管不到；
+② GitHub 单文件硬限制 100 MB，这两个文件都远超。见下节。
 
 ## 许可
 

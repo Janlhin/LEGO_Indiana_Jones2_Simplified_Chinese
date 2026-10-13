@@ -24,17 +24,23 @@ SOFTWARE.
 
 ## 关于游戏素材的额外声明
 
-本仓库**不包含**任何《LEGO Indiana Jones 2: The Adventure Continues》
-（乐高印第安纳琼斯 2：冒险再续）的原始素材，包括但不限于：
+MIT 许可**仅适用于本仓库中的源代码、文档与译文表**，即：
 
-- `GAME.dat` / `GAME2.dat` 及其任何派生文件
-- 原始游戏文本、字体、图集、音频等从游戏本体提取的资源
-- 游戏的商标、Logo、剧情文本与角色配音
+- `src/` `tools/` `patch/` `docs/`
+- `translations/translations*.py`
+- `translations/text.csv`（本项目生成的汉化文本表）
 
-上述内容均属 Traveller's Tales / Warner Bros. Interactive Entertainment
-及相关权利方的财产。MIT 许可**仅适用于本仓库中的源代码与文档**，
-不适用于任何游戏素材。
+以下内容**不在 MIT 授权范围内**，其著作权属于 Traveller's Tales /
+Warner Bros. Interactive Entertainment 及相关权利方：
+
+- `GAME.dat` / `GAME2.dat` 及其任何派生文件（**未入库**，见下）
+- `assets/fonts/` 下的字体与文本索引文件 —— 这些是从正版游戏 DAT 中
+  提取并改写的二进制素材，入库仅为方便持有正版的玩家，省去重做格式逆向
+- 游戏的商标、Logo、剧情文本、美术资源与角色配音
+
+完整的 `GAME.dat`（约 981 MB）与 `GAME2.dat`（约 925 MB）**不在本仓库中**，
+既因为它们几乎全部是原版素材，也因为远超 GitHub 单文件 100 MB 上限。
+请在你自己的正版副本上运行工具生成，不要期待从本仓库获取成品 DAT。
 
 使用本项目的工具前，请自行通过 Steam 购买正版游戏。工具的作用是
-在你已合法拥有的游戏副本上生成中文本地化，不提供、不下载、不分发
-游戏内容本身。
+在你已合法拥有的游戏副本上生成中文本地化。

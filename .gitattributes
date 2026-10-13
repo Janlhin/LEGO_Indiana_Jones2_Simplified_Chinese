@@ -27,3 +27,18 @@
 *.wav   binary
 *.ttf   binary
 *.otf   binary
+
+# ---- assets/fonts/ 下的白名单文件 ----
+# 这些是要**逐字节**打进 DAT 的素材，行尾转换会破坏内容：
+#   *.fnt / *.ft2  —— 字体结构，前面是偏移表，后面是裸图集数据，
+#                     一个字节的偏移错位整张图就错
+#   *.txt          —— 文本索引表，游戏按固定字节偏移定位字符串
+# 因此全部标为 -text（不做任何行尾/编码转换，原样入库）。
+assets/fonts/*.fnt     -text
+assets/fonts/*.ft2     -text
+assets/fonts/*.txt     -text
+assets/fonts/charset_full.txt -text
+
+# 汉化后的文本表本体：游戏/构建脚本按 UTF-8 with BOM 读取，
+# BOM 必须保留，但行尾统一为 LF。
+translations/text.csv  text eol=lf

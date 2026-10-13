@@ -1,7 +1,10 @@
-# ---- 本项目**不含任何游戏版权素材** ----
-# 汉化所需的 GAME.dat / GAME2.dat（各约 1 GB）、中文字体、语音文件，
-# 以及从游戏里提取的原始文本（*.tsv）与图集（*.png）都不入库。
-# 用户需自行准备正版游戏，安装脚本会在其机器上重建这些产物。
+# 本项目**不含任何完整游戏 DAT**
+# 汉化所需的 GAME.dat / GAME2.dat（各约 1 GB）不入库 —— 它们 99.5% 是原版素材，
+# 且远超 GitHub 单文件 100 MB 硬限制。用户需自行准备正版游戏，
+# 安装脚本会在其机器上重建这些产物。
+#
+# 例外：assets/fonts/ 下的**增量**文件（17.4 MB）入库，
+# 让持有正版的玩家不必自己逆向字体格式。它们仍属权利方素材，见该目录 README。
 
 # 汉化 DAT 与编译产物
 *.dat
@@ -17,6 +20,7 @@
 src/d3d9proxy/*.a
 
 # 从游戏提取的原始素材 —— 版权内容，一律不入库
+# （assets/fonts/ 下的白名单文件除外，靠下方 ! 规则重新纳入）
 *.tsv
 *.wav
 *.png
@@ -26,6 +30,19 @@ src/d3d9proxy/*.a
 backup/
 extract/
 game_files/
+
+# 从游戏提取的字体与文本索引：只放 assets/fonts/ 下的白名单
+*.fnt
+*.ft2
+!assets/fonts/font_pc.fnt
+!assets/fonts/FONT_NXG.FT2
+!assets/fonts/FONT2_NXG.FT2
+!assets/fonts/english.txt
+!assets/fonts/american.txt
+!assets/fonts/japanese.txt
+!assets/fonts/font.txt
+!assets/fonts/PS2_FONT_J.txt
+!assets/fonts/charset_full.txt
 
 # 探针与调试输出
 probe_*.exe

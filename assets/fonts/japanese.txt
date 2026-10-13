@@ -1,0 +1,602 @@
+﻿
+; 0-19 reserved for use by game code (language names, 'null', 'unknown' etc.)
+
+
+
+; 100-189 reserved for character names, referenced from text files.
+; JH - I have Cornwalled all character except those below.
+
+
+
+;190-199 reserved for builder character names
+190	"工程师"
+191	"底板"
+192	"园丁"
+193	"机械"
+194	"工具"
+195	"建造"
+196	"道具"
+197	"武器"
+198	"景观"
+199	"巫师"
+
+
+
+; 200-399 reserved for game text
+200	"乐高®印第安纳·琼斯™ 2"					;;GAME_NAME
+201	"任务完成"					;;MISSION_COMPLETE
+202	"挑战完成"				;;CHALLENGE_COMPLETE
+203	"跳过"						;;SKIP
+204	"不保存退出" 				;;EXIT_NO_SAVE
+205	"时间到"					;;OUT_OF_TIME
+206	"女贞路"					;;PRIVET_DRIVE
+207	"要返回女贞路吗？"				;;EXIT_PRIVET_DRIVE
+208	"继续剧情"					;;CONTINUE_STORY
+209	"未解锁"						;;LOCKED
+210	"角色"					;;CHARACTERS
+211	"章节"						;;CHAPTER
+212	"解锁奖励"					;;BONUS_UNLOCKED
+213	"最佳时间"						;;BEST_TIME
+214	"最高分"					;;HIGH_SCORE
+215	"新最佳时间"					;;NEW_BEST_TIME
+216	"新最高分"					;;NEW_HIGH_SCORE
+217	"超级剧情"					;;SUPER_STORY
+218	"角色奖励"					;;CHARACTER_BONUS
+219	"迷你套装奖励"					;;MINIKIT_BONUS
+220	"关卡完成"					;;LEVEL_COMPLETE
+221	"寻宝模式已解锁"				;;FREEPLAY_UNLOCKED
+222	"超级剧情已解锁"				;;SUPERSTORY_UNLOCKED
+223	"无新最佳时间"					;;NO_NEW_BEST_TIME
+224	"无新最高分"					;;NO_NEW_HIGHSCORE
+225	"超级剧情完成"				;;SUPER_STORY_COMPLETE
+226	"已收集全部迷你套装"				;;ALL_MINIKITS_BUILT		
+227	"完成剧情"					;;FINISH_STORY			
+228	"已解锁"						;;UNLOCKED
+229	"能量砖"					;;POWERBRICK
+230	"交换"						;;SWAP
+231	"保存并退出"					;;SAVE_AND_EXIT
+232	"随机"						;;RANDOM
+233	"获胜！"						;;WINNER
+234	"确认"						;;CONFIRM
+235	"可购买"					;;AVAILABLE_TO_BUY
+236	"解锁"						;;UNLOCK
+237	"挑战"						;;CHALLENGE
+238	"赏金"						;;BOUNTY
+239	"金砖"					;;GOLDBRICK
+240	"金砖"					;;GOLDBRICKS
+241	"编辑名称"						;;EDIT_NAME
+242	"使用自定义名称"					;;USE_EDIT_NAME
+243	"使用自动名称"					;;USE_AUTO_NAME
+244	"最终章节未解锁"				;;FINAL_CHAPTER_LOCKED
+245	"下一章节未解锁"				;;NEXT_CHAPTER_LOCKED
+246	"自上次保存以来的进度将会丢失。"		;;PROGRESS_LOSS
+247	"剧情片段"					;;STORY_CLIPS
+248	"片段 %i"						;;CLIP_I
+249	"超级英雄"					;;SUPERHERO
+250	"当前游戏"					;;CURRENT_GAME
+251	"游戏"						;;GAME
+252	"新的游戏"						;;NEW_GAME
+253	"试用版"						;:DEMO
+254	"奖励"						;;BONUS
+255	"额外"						;;EXTRA
+256	"已暂停"						;;PAUSED
+257	"继续游戏"						;;RESUME
+258	"重新开始"						;;RESTART
+259	"重新开始本关？"					;;RESTART_LEVEL
+260	"退出"						;;EXIT
+261	"退出本关？"					;;EXIT_LEVEL
+262	"退出游戏？"					;;QUIT
+263	"选项"						;;OPTIONS
+264	"完成！"						;;FINISH
+265	"继续"						;;CONTINUE
+266	"重试"						;;RETRY
+267	"退出"						;;QUIT
+268	"是"						;;YES
+269	"预备..."						;;READY
+270	"开始！"						;;GO
+271	"胜利！"						;;WIN
+272	"否"						;;NO
+273	"开"						;;ON
+274	"关"						;;OFF
+275	"完成"						;;DONE
+276	"接受"						;;ACCEPT
+277	"选择"						;;SELECT
+278	"返回"						;;BACK
+279	"取消"						;;CANCEL
+280	"玩家一"						;;PLAYER1
+281	"玩家二"						;;PLAYER2
+282	"退出联机"						;;DROPOUT
+283	"要退出本局游戏吗？"					;;DROPOUT_GAME
+284	"剧情模式"						;;STORY
+285	"寻宝模式"						;;FREEPLAY
+286	"登陆舰"					;;LANDING_SHIP
+287	"角色查看器"					;;CHARACTER_VIEWER
+288	"查看镜头"					;;VIEW_CAMERA
+289	"重看剧情"					;;REPLY_STORY
+290	"更改"						;;CHANGE
+291	"开始"						;;PLAY
+292	"购买"						;;BUY
+293	"确定"						;;OK
+294	"超级套装零件"					;;SUPERKIT_PIECE
+295	"迷你套装"						;;MINIKIT
+296	"乐高币总计"					;;STUD_TOTAL
+297	"乐高币"						;;STUDS
+298	"关卡"						;;LEVEL
+299	"完成！"						;;COMPLETE
+300	"时间"						;;TIME
+301	"太慢了！"						;;TOO_SLOW
+302	"重新开始试用版"					;;RESTART_DEMO
+303	"重新开始试用版？"					;;RESTART_DEMO_QM
+304	"读取"						;;LOAD
+305	"保存"						;;SAVE
+306	"读取存档"						;;LOAD_GAME
+307	"保存存档"						;;SAVE_GAME
+308	"数据"						;;DATA
+309	"输入秘籍"					;;ENTER_CODE
+310	"额外内容"						;;EXTRAS
+311	"本关卡的全部进度都将丢失！"		;;LEVEL_PROGRESS_LOST
+312	"全部剧情进度都将丢失！"			;;STORY_PROGRESS_LOST
+313	"音量"					;;AUDIO_VOLUME
+314	"音频"						;;AUDIO
+315	"宽屏"					;;WIDESCREEN
+316	"震动"						;;VIBRATION
+317	"环绕声"					;;SOUND_SURROUND
+318	"音效音量"					;;SOUND_VOLUME
+319	"音效"						;;SOUND
+320	"音乐音量"					;;MUSIC_VOLUME
+321	"音乐"						;;MUSIC
+322	"立体声"						;;SOUND_STEREO
+323	"单声道"						;;SOUND_MONO
+324	"屏幕调整"					;;SCREEN_ADJUST
+325	"屏幕左右"					;;SCREEN_L-R
+326	"屏幕上下"					;;SCREEN_U-D
+327	"请接入控制器"					;;CONTROLLER_INSERT
+328	"按 START 键"					;;PRESS_START-DROPIN
+329	"按 START 键"					;;PRESS_START
+
+330 "Batsuit"						;;SUIT_BATSUIT
+331 "Heat Protection Suit"				;;SUIT_HEATSUIT
+332 "Glide Suit"					;;SUIT_GLIDESUIT
+333 "Demolition Suit"					;;SUIT_DEMOSUIT
+334 "Sonic Suit"					;;SUIT_SONICSUIT
+
+335 "Robin Suit"					;;SUIT_ROBINSUIT
+336 "Water Suit"					;;SUIT_WATERSUIT
+337 "Technology Suit"					;;SUIT_TECHSUIT
+338 "Magnet Suit"					;;SUIT_MAGNOSUIT
+339 "Attract Suit"					;;SUIT_ATTROSUIT
+
+340	"分数倍率"					;;SCORE_MULTIPLIER
+341	"超级反派"					;;SUPERVILLAIN
+342	"套装升级"					;;SUIT_UPGRADES
+343	"全部套装"						;;SUITS_ALL
+344	"实验室"					;;EXPERIMENT_ROOM
+345	"阿卡姆疯人院"					;;ARKHAM_ASYLUM
+346	"要返回阿卡姆疯人院吗？"				;;EXIT_TO_ARKHAM
+347	"亮度"					;;SCREEN_BRIGHTNESS
+348	"载入中"						;;LOADING
+349	"空间不足"						;;NO_SPACE
+350	"空"						;;EMPTY
+351	"已确认"						;;CONFIRMED
+352	"即将推出"					;;COMING_SOON
+353	"已收集全部乐高币"				;;ALL_STUDS_COLLECTED
+354	"已解锁全部额外内容"				;;ALL_EXTRAS_UNLOCKED
+355	"选择存储设备"				;;STORAGE_DEVICE
+356	"能量提升"						;;POWER_UP
+357	"英雄"						;;HERO
+358	"控制器选项"				;;CONTROLLER_OPTIONS
+359	"垂直同步"					;;SCREEN_VSYNC
+360	"入侵"						;;HACKING ;nb - as in: hacking into a computer server
+361	"反派任务室"				;;VILLAIN_MISSIONROOM
+362	"英雄任务室"					;;HERO_MISSIONROOM
+363	"反派陈列室"				;;VILLAIN_TROPHYROOM
+364	"英雄陈列室"					;;HERO_TROPHYROOM
+365	"最高警戒区"				;;MAX_SECURITY_AREA
+366	"演示影片"					;;ATTRACT_MOVIE
+367	"新游戏影片"					;;NEW_GAME_MOVIE
+368	"英雄能量砖"					;;HERO_POWERBRICK
+369	"反派能量砖"				;;VILLAIN_POWERBRICK
+370	"开场影片"					;;INTRO_MOVIE ;logos/ident
+371	"TT"						;;TT
+372	"开场"						;;INTRO
+373	"间场"						;;MIDTRO
+374	"尾声"						;;OUTRO
+375	"结局"						;;ENDING
+376	"章节开始"					;;CHAPTER_START
+377	"章节结束"					;;CHAPTER_ENDING
+378	"英雄结局"					;;HERO_ENDING
+379	"反派结局"					;;VILLAIN_ENDING
+380	"完成一个章节以启动此拉杆。"	;;COMPLETE_CHAPTER_ACTIVATE_LEVEL
+381	"拉动此拉杆即可进入阿卡姆疯人院。"		;;PULL_LEVER_ACCESS_ARKHAM
+382	"保存进度并退出"				;;STOREPROGRESS_EXIT
+383	"启动中"					;;ACTIVATING
+
+; 400-499 reserved for hints
+400 "In Free Play, press [TOGGLELEFT] or [TOGGLERIGHT] to choose a different character or change suits."
+
+;CITY STREETS SPECIFIC HINTS - FIRST LEVEL MECHANICS.
+;First
+401 "Batman and Robin can grapple to other areas. Stand on the white circles and press [SPECIAL]."
+;Second, after using the grapple and when close to the tightrope.
+402 "Tightropes can be used to traverse gaps. Jump to get on them."
+;Third, when the suit signal is in camera shot.
+403 "Batman and Robin have different Suit Swapper Signals. Look for their symbols in the signals."
+;Fourth, when the player is in close range of the suit signal.
+404 "Wearing different suits gives you different abilities. Jump into the Suit Swapper to change suits."
+;Fifth, when the player has the suit on.
+405 "You can change back into the other suit by jumping back into the Suit Swapper."
+;Sixth, when the player is wearing the detonator suit and goes near shiny LEGO.
+406 "While wearing Batman's Demolition Suit, you can lay Bat Bombs. These can be used to destroy shiny silver LEGO. To lay them press [SPECIAL]."
+;Seventh, as soon as the player has laid thier first bomb.
+407 "Bombs explode after a period of time. To detonate them manually hold the [SPECIAL] button."
+;If player hasn't already switched, trigger as soon as the Robin Signal is built.
+408 "You can switch control between Batman and Robin by pressing [TAG]."
+;Trigger as soon as Robin is wearing the Tech suit.
+409 "The Technology suit allows Robin to operate green tech panels. Approach the panel and press [SPECIAL]. You can now control specific technological items."
+;Trigger after the player has gone through the car showroom, if they haven't tagged again already.
+410 "Regain control of your other character by pressing [TAG]."
+;When there isn't much happening in the level.
+411 "Hold [ACTION] to enter Batarang mode. Look around to target glowing LEGO objects, then release [ACTION] to throw the Batarang."
+412 "Batman and Robin can perform special attacks. Press [SPECIAL] to grab an enemy, then [SPECIAL] again to throw, or [ACTION] to punch them."
+413 "To detach from a tech panel, press [TAG]."
+
+
+;ATTRACTO SUIT HINT (here couse it won't fit in later)
+419 "Press [SPECIAL] to deposit your LEGO pieces."
+
+;FIRST USES
+
+;Whenever the player first approaches a pile a jibbering LEGO
+420 "Approach piles of LEGO and hold [SPECIAL] to build."
+;When the player first approaches a drivable vehicle in a character level.
+421 "Press [TAG] when close to a vehicle to get into it."
+;When the player is driving their first character level vehicle.
+422 "Press [JUMP] to jump out of a vehicle."
+;First time you go by a security door in villain mode.
+423 "Some characters can trick security guards. Approach the hatch and  press [SPECIAL]."
+;First time you go near a push block.
+424 "You can push objects that have a smooth checkered floor beneath them."
+;First time you go near a super strength object with a super strength character.
+425 "Strong characters can pick up large objects that have an orange handle. Press [SPECIAL] when next to the object."
+First time you get in range of a lever.
+426 "Press [SPECIAL] to pull levers."
+
+;SUITS
+
+;First time you put on the glide suit.
+427 "The Glide Suit allows Batman to glide. Press and hold [JUMP] to glide."
+;First time you put on the Heat Protection Suit.
+428 "The Heat Protection Suit allows Batman to go through flames and use very hot LEGO objects."
+;First time you put on the Sonic Suit.
+429 "The Sonic Suit allows Batman to shatter Glass LEGO bricks. Approach the bricks and hold [SPECIAL]."
+;First time you put on the Water Suit.
+430 "The Water Suit allows Robin to dive in deep water. To surface, hold [JUMP]."
+;First time you put on the Magnet Suit.
+431 "The Magnet Suit allows Robin to walk on Magnetic surfaces."
+;First time you put on the Attract Suit.
+432 "The Attract Suit allows Robin to suck up loose red, green, and yellow LEGO pieces. Deposit them in the Attracto machine to create new LEGO objects."
+
+;VILLAIN ABILITIES
+
+;First time you approach hazard material with a hazard character.
+433 "~2Toxic Waste~~ is poisonous - but some characters and vehicles can get through safely!"
+;First time you get in range of a mind-controllable character with a mind control villain.
+434 "The Riddler's cane gives him Mind Control Abilities. When you see ~5?~~ above a character's head, press [SPECIAL] to take control of them."
+;First time you go near a Joker electricity object.
+435 "The Jokerâs electric buzzer can power up special electric generators. Approach the generator and press [SPECIAL]."
+;First time you have a security character and get in range of a security door.
+436 "Some characters can go through security doors. Walk up to the door and press [SPECIAL]."
+;First time you control a Super Jump character
+437 "Some characters can perform extra high jumps. Press [X] and then [X] again in the air."
+;Mr. Freeze
+438 "Mr. Freeze can use his Freeze Ray to freeze enemies. Target them and press [SPECIAL]."
+439 "Mr. Freeze can create frozen platforms on liquids. Hold [SPECIAL] when you see particles of snow on the liquid's surface."
+440 "Superstrength characters can perform special attacks. Press [SPECIAL] to grab an enemy, then [SPECIAL] again to throw, or [ACTION] to punch them."
+441 "Poison Ivy can make plants grow to reach new areas. Hold [SPECIAL] when you see pink hearts on screen."
+442 "Superstrength characters can perform special attacks. Press [SPECIAL] to grab an enemy, then [SPECIAL] again to throw, or [ACTION] to destroy them."
+443 "The Penguin can produce penguin bombers to destroy shiny silver LEGO. Press [SPECIAL] to release them and [SPECIAL] again to detonate."
+444 "Penguin bombers can travel down special chutes to get to new areas."
+445 "When frozen you can break out of the ice by pushing in different directions quickly."
+446 "Try to trick the homing missile into targeting large enemy vehicles."
+447 "Superstrength characters can manipulate heavy objects. Approach an object with an orange handle and hold [SPECIAL]."
+448 "The Joker has a special handshake. Approach a character and press [SPECIAL]."
+449 "Press left and right to move the crane. Press [SPECIAL] to grab."
+450 "Press [TAG] to take control of the wrecking ball."
+
+;SHOP
+
+460 "By pressing [UP] or [DOWN] when on a grapple you can control your height."
+461 "Hold [ACTION] to protect yourself from bullets."
+462 "Many areas of the levels can only be reached by certain characters. Go back to these levels in Free Play, and try to find all the secrets!"
+463 "You can lay more than one Bat Bomb at a time."
+464 "Some characters are stronger-minded than others, meaning you can only confuse them for a short time."
+465 "You can use your Batarang when stationary on a grapple line. Hold [ACTION], target objects and then release the button."
+
+; Wii
+480 "Hold [ACTION] to enter Batarang mode. Use the Wii Remote to move the Batarang target around the screen, then release [ACTION] to throw the Batarang at targeted LEGO objects."
+481 "Batman and Robin can grapple to other areas. Stand on the white circles and swipe the Wii Remote in an upwards motion."
+482 "Approach piles of LEGO and hold [SPECIAL] to build. Move the Wii Remote and Nunchuk up and down alternately to build faster."
+483 "When standing in front of a lever, swipe the Wii Remote downwards to pull it."
+484 "When controlling Catwoman, swipe the Wii Remote out in front of you to crack her whip."
+485 "When you have grabbed an enemy off the floor, swipe the Wii Remote to perform a throw, or swipe the Nunchuk to perform an attack."
+
+;VEHICLES
+487 "Trucks are weaker when their hatches are up. Stomp on them!"
+488 "The Batboat can glide off the end of ramps."
+489 "Press [SPECIAL] to attach to a rolling mine and press [SPECIAL] again to release."
+490 "Press [SPECIAL] to fire your tow cable at targeted vehicles."
+492 "The Batboat can tow floating mines which can destroy shiny silver LEGO barriers. Press [SPECIAL] to attach to a mine press [SPECIAL] again to release."
+493 "Robin's Watercraft can fire torpedoes to destroy red, yellow and green LEGO. Press [SPECIAL] to fire the torpedos."
+494 "The Batwing can fire torpedoes to destroy LEGO objects with a purple target. Press [SPECIAL] to fire the torpedo."
+495 "Helicopters can tow hover mines which destroy shiny silver LEGO objects. Press [SPECIAL] to attach to a mine and press [SPECIAL] again to release."
+496 "Scarecrow's Biplane can fire torpedoes to destroy LEGO objects with a purple target Press [SPECIAL] to fire the torpedo."
+497 "The Penguin's submarine can dive below the surface. Press [JUMP] to dive and press [JUMP] again to re-surface."
+498 "Penguin's submarine can fire penguin torpedoes. Approach a torpedo station to load up, and press [SPECIAL] to fire them at purple targets."
+499 "Killer Croc's Swamp Rider can go through green toxic waste unharmed."
+
+
+
+;
+;Level names
+;
+
+500 "Year1"
+501 "???"
+502 "???"
+503 "???"
+504 "???"
+505 "???"
+506 "???"
+
+510 "Year2"
+511 "???"
+512 "???"
+513 "???"
+514 "???"
+515 "???"
+516 "???"
+
+520 "Year3"
+521 "???"
+522 "???"
+523 "???"
+524 "???"
+525 "???"
+526 "???"
+
+530 "Year4"
+531 "???"
+532 "???"
+533 "???"
+534 "???"
+535 "???"
+536 "???"
+
+
+
+;
+; Other
+;
+560 "Bonus"
+561 "Wayne Manor"
+562 "Arkham Asylum"
+563 "Hero Super-Kit"
+564 "Villain Super-Kit"
+
+; 600-639 reserved for extras...
+600	"自适应难度"
+601	"额外切换"
+602	"伪装"
+603	"剪影"
+604	"嘀嘀"
+605	"打击气泡"
+606	"能量砖探测器"
+607	"乐高币磁铁"
+608	"缴械打手"
+609	"角色乐高币"
+610	"无敌"
+611	"分数 x2"
+612	"分数 x4"
+613	"分数 x6"
+614	"分数 x8"
+615	"分数 x10"
+616	"快速搭建"
+617	"生命恢复"
+618	"迷你套装探测器"
+619	"瞬时缆击"
+620	"无限鱼雷"
+621	"溜冰场"
+622	"超级冰冻"
+623	"免疫冰冻"
+624	"额外生命"
+625	"始终分数加倍"
+
+; 640-679 reserved for suit upgrades...
+640 "More Batarang Targets"
+641 "More Batarang Damage"
+642 "More Detonators"
+643 "Slam"
+644 "Heat Aura"
+645 "Area Effect"
+646 "Faster Pieces"
+647 "Fast Walk"
+648 "Decoy"
+649 "Fast Batarangs"
+650 "Piece Detector"
+651 "Sonic Pain"
+652 "Bats"
+653 "Fast Grapple"
+654 "Flaming Batarang"
+655 "Freeze Batarang"
+656 "Armour Plating"
+
+; Customiser string(s):
+700 "Test"
+
+
+;750 - 800 Networking Strings!
+750	"连接失败"
+751	"游戏已满员"
+752	"已断开并被屏蔽"
+753	"你已被踢出局"
+754	"连接已断开"
+755	"已连接"
+756	"连接中"
+757	"快速游戏"
+758	"搜索游戏"
+759	"查看邀请"
+760	"搜索章节"
+761	"任意"
+762	"搜索区域"
+763	"搜索模式"
+764	"搜索游戏"
+765	"没有游戏"
+766	"个可加入的游戏"
+767	"等待其他玩家"
+768	"刷新搜索";
+769	"玩家卡片";
+770	"聊天受限";
+771	"游戏即将退出";
+772	"仅限邀请"
+773	"任何人可加入"
+774	"邀请好友"
+775	"攻击对方玩家"
+776	" 邀请你一起游戏";
+777	"未连接到互联网";
+778	"已连接，可以邀请好友";
+779	"已连接，可以加入游戏"
+780	"移除玩家二";
+781	"你还没有好友";
+782	"正在与其他玩家同步"
+783	"没有相应的游戏权限"
+784	"未登录档案"
+785	"未登录 LIVE 档案"
+786	"联机已被限制"
+787	"请等待其他玩家准备完成"
+
+; 800 - 820 Platfrom spec
+800 360 "You've been disconnected from xbox live;
+801 360 "Xbox Live Settings"
+
+800 PS3 "PSN Settings"
+
+;
+;FACTS
+;
+;3 Free
+860 "Batman keeps a collection of ancient armour in the Batcave as part of his study of military history; it includes outfits worn by European knights, desert nomads, and samurai warriors throughout the centuries."
+861 "Ras al Ghuls daughter Talia is in love with Batman, but her loyalty to her father keeps them from being together."
+862 "The Batsuit has an electrical system that can shock assailants as a last resort."
+;10 Buyable (always available)
+863 "The Batsuit is made of triple-weave Kevlar positioned primarily around the torsoâs Bat-Symbol, an intentional and well-protected target."
+864 "The Penguinâs real name is Oswald Chesterfield Cobblepot."
+865 "The Penguin is the owner of a nightclub called the Iceberg Lounge."
+866 "Wayne Tower was built in 1939, is 78 stories high, and is Gothamâs highest building."
+867 "Batman is contacted when Gotham is in need through the Bat-Signal, a light that shines his Bat-Symbol up into the sky."
+868 "The Riddler's real name is Edward Nigma."
+869 "Arkham Asylum's full name is The Elizabeth Arkham Asylum for the Criminally Insane."
+870 "The wood used to carve the dummy Scarface is from Gothamâs Gallows Tree, where prisoners of Gothamâs Blackgate prison were given the ultimate punishment."
+871 "Dick Grayson was taken in by Batman to become the first Robin. After years of crime fighting with Batman, he became a solo crime fighter under the new identity of Nightwing."
+872 "Nightwing modified Batarangs into throwing stars nicknamed 'Wing-Dings.'"
+;30 Buyable (conditional)
+873 "Bruce Wayneâs parents were killed at 10:47 PM, which is the time he puts into a clock in Wayne Manor to access the Batcave."
+874 "Tim Drake was only nine years old when he figured out Batman's true identity, which led to him becoming the new Robin."
+875 "Bruce Wayne discovered the Batcave when he accidentally fell into it as a child."
+876 "There is a great variety of Batarangs. Some are thrown like a boomerang, some are remote-controlled, and some are used as grapples."
+877 "Killer Croc began his life as a scaly-skinned child called Waylon Jones. His reptilian appearance earned him the name âKiller Crocâ in sideshows, a name he kept when he became a vicious criminal in Gotham City."
+878 "Gotham City has two baseball teams, the Gotham Knights and Gotham Monarchs, a basketball team, the Gotham Guardsmen, an American football team, the Gotham Wildcats, and finally an ice hockey team, the Gotham Blades."
+879 "Bruce Wayne travelled the world as a teenager, training with ninjas, African Bushmen, and Nepalese monks, among others."
+880 "Batmanâs enemies who arenât insane go to Blackgate prison instead of Arkham Asylum."
+881 "The utility belt contains many of Batmanâs crime-fighting gadgets, including Batarangs, Bat-Cuffs, and a first-aid kit."
+882 "The Batcave features various mementoes from Batmanâs criminals and allies, including a model of a Tyrannosaurus Rex and a giant 1947 Lincoln head penny."
+883 "Dick Grayson was once part of the circus act The Flying Graysons with his parents John and Mary Grayson until they both tragically lost their lives."
+884 "The Mad Hatter is convinced that he is actually the character of the same name from Lewis Carrollâs Aliceâs Adventures in Wonderland."
+885 "Dr. Jeremiah Arkham is the head of Arkham Asylum. His uncle was the founder of the facility."
+886 "Two-Face carries with him a two-headed coin, which has one side scratched with an X."
+887 "The Huntressâs real name is Helena Bertinelli. The only surviving member of a Gotham crime family, she has at times been an ally of Batman, and at other times an adversary."
+888 "When the Batmobile is not the best option for getting somewhere, Batman has a Batplane, a Bat-Copter, and a Bat-Cycle."
+889 "Gotham City is actually a series of islands surrounded by the Gotham river."
+890 "Before Two-Face's terrible accident, he was Gotham Cityâs District Attorney and a friend of Batman."
+891 "Two-Face was born during the trial of gangster Vincent Maroni, who threw acid into the face of District Attorney Harvey Dent. Horrifically scarred down half his face, Dent took on the identity of Two-Face."
+892 "Alfred Pennyworth has, amongst other things, been an actor on the London stage."
+893 "Gotham City is located atop a major fault line and was once evacuated after a major earthquake."
+894 "The Scarecrow suffers from chiroptophobia, the fear of bats."
+895 "The Penguinâs overprotective mother always insisted he carry an umbrella because his father died of pneumonia after being caught in a rainstorm."
+896 "Batmanâs back was once broken by his fearsome enemy Bane. For a short time, Bruce Wayne was then replaced in the Batsuit by the crime fighter Azrael."
+897 "Batgirl's true identity is Barbara Gordon, the daughter of Commissioner Gordon."
+898 "Man-Bat is actually the mutated form of Dr. Kirk Langstrom. Dr. Langstrom injected himself with a serum that would stop his loss of hearing. His serum was based upon a method that bats use to see in the dark, hence his transformation into a bat/human creature."
+899 "Harleen Quinzel was a doctor at Arkham Asylum who fell in love with the Joker. He manipulated her into becoming his sidekick, Harley Quinn, but has never exactly returned her affections."
+900 "Ras al Ghul is centuries old, so old that he no longer remembers his true name."
+901 "The Penguin has used many different umbrellas over the years, including one that acted as a pogo stick, and another that worked like a helicopter."
+902 "The Red Hood, a notorious Gotham criminal, came up against Batman in a chemical factory. To escape he swam through a vat of toxins that made his skin white and his hair green. The man who emerged became the Joker!"
+;10 Buyable (100%)
+903 "Mr. Freeze is motivated by an attempt to cure his cryogenically frozen wife, Nora, at any cost."
+904 "Bruce Wayne was once accused of murder, and for a time it looked like Batman would have to abandon his secret identity."
+905 "Catwoman uses and eight foot-long braided leather bullwhip as her weapon of choice."
+906 "Ra's al Ghul can bring people who are near death back to life, using one of his Lazarus pits. To create Lazarus pits Ra's mines into the earth and combines electronic ley lines with a mixture of poisons that can rejuvenate dying and aging people."
+907 "Poison Ivy has chlorophyll, not blood, in her veins after being transformed into a human/plant hybrid."
+908 "Catwoman sometimes uses a whip with nine separate steel-tipped ends, known as a cat oâ nine tails."
+909 "Baneâs immense strength comes from the toxin Venom, but he is also very intelligent, having studied military strategy in his attempt to defeat Batman."
+910 "During Gothamâs major earthquake, the inmates ran riot through Arkham Asylum and Dr. Arkham had to seal the building to prevent their escape."
+911 "The Joker is always at the top of Gotham's 'Most Wanted' list."
+912 "Batman has been entrusted by Superman with a kryptonite ring just in case Superman needs to be stopped for some reason."
+;1 Buyable (100% and all other hints collected)
+913 "The End...?"
+
+
+
+;
+;PC
+;
+;1186 pc "Accept"
+;1187 pc "Cancel"
+920	pc	"按键设置"
+921	pc	"按键配置"
+922	pc	"更换设备"
+923	pc	"未选择设备"
+924	pc	"等待按键输入（ESC 取消）"
+925	pc	"请在要选择的设备上按任意键（ESC 取消）"
+926	pc	"视角向左"
+927	pc	"视角向右"
+928	pc	"视角向上"
+929	pc	"视角向下"
+930	pc	"手柄 / 鼠标灵敏度"
+931	pc	"按 [[cross]] 编辑当前菜单项"
+932	pc	"选择菜单选项"
+933	pc	"（ESC 取消）"
+934	pc	"调整死区"
+935	pc	"用 [[padleft]]/[[padright]] 调整手柄死区（ESC 取消）"
+936	pc	"调整鼠标灵敏度"
+937	pc	"用 [[padleft]]/[[padright]] 调整鼠标灵敏度（ESC 取消）"
+938	pc	"按 [[CROSS]] 调整手柄或鼠标灵敏度"
+939	pc	"移动光标：上-[[padup]] / 下-[[paddown]] / [[circle]]-返回"
+940	pc	"手柄死区"
+941	pc	"鼠标灵敏度"
+942	pc	"向左移动"
+943	pc	"向右移动"
+944	pc	"向上移动"
+945	pc	"向下移动"
+946	pc	"切换角色"
+947	pc	"特殊能力"
+948	pc	"跳跃"
+949	pc	"动作"
+950	pc	"切换上一角色"
+951	pc	"切换下一角色"
+952	pc	"开始 / 暂停"
+953	pc	"左"
+954	pc	"右"
+955	pc	"下"
+956	pc	"上"
+957	pc	"恢复默认设置"
+958	pc	"奔跑"
+959	pc	"行走"
+960	pc	"鼠标控制"
+961	pc	"已禁用"
+
+
+
+;
+;PS3
+;
+990	"分配控制器"
+
