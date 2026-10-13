@@ -1,0 +1,40 @@
+MIT License
+
+Copyright (c) 2026 lego-indy2-chs contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## 关于游戏素材的额外声明
+
+本仓库**不包含**任何《LEGO Indiana Jones 2: The Adventure Continues》
+（乐高印第安纳琼斯 2：冒险再续）的原始素材，包括但不限于：
+
+- `GAME.dat` / `GAME2.dat` 及其任何派生文件
+- 原始游戏文本、字体、图集、音频等从游戏本体提取的资源
+- 游戏的商标、Logo、剧情文本与角色配音
+
+上述内容均属 Traveller's Tales / Warner Bros. Interactive Entertainment
+及相关权利方的财产。MIT 许可**仅适用于本仓库中的源代码与文档**，
+不适用于任何游戏素材。
+
+使用本项目的工具前，请自行通过 Steam 购买正版游戏。工具的作用是
+在你已合法拥有的游戏副本上生成中文本地化，不提供、不下载、不分发
+游戏内容本身。

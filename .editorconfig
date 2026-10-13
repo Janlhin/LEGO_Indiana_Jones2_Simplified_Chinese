@@ -1,0 +1,26 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{png,jpg,jpeg,gif,webp,ico,dat,dll,exe,wav}]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+# Windows PowerShell 5.1 要求 UTF-8 with BOM，否则中文乱码
+[*.ps1]
+end_of_line = crlf
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+[*.{c,h}]
+indent_style = space
+indent_size = 4
+
+[Makefile]
+indent_style = tab

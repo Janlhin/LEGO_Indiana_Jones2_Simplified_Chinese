@@ -1,0 +1,51 @@
+# ---- 本项目**不含任何游戏版权素材** ----
+# 汉化所需的 GAME.dat / GAME2.dat（各约 1 GB）、中文字体、语音文件，
+# 以及从游戏里提取的原始文本（*.tsv）与图集（*.png）都不入库。
+# 用户需自行准备正版游戏，安装脚本会在其机器上重建这些产物。
+
+# 汉化 DAT 与编译产物
+*.dat
+*.dll
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.lib
+*.a
+
+# 导入库（链接副产物）
+src/d3d9proxy/*.a
+
+# 从游戏提取的原始素材 —— 版权内容，一律不入库
+*.tsv
+*.wav
+*.png
+*.fnt
+*.ft2
+02_extract/
+backup/
+extract/
+game_files/
+
+# 探针与调试输出
+probe_*.exe
+probe_*.txt
+*.tmp
+*.log
+dump_*.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 编辑器与系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# 一次性提交信息文件
+.git_commit_msg.txt

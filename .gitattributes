@@ -1,0 +1,29 @@
+# 源码与文档统一按 UTF-8、LF 行尾入库。
+# 注意：patch/ 下的 .ps1 会单独强制 CRLF + BOM，见下方。
+
+* text=auto eol=lf
+
+*.py    text eol=lf
+*.c     text eol=lf
+*.h     text eol=lf
+*.def   text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+
+# PowerShell：Windows PowerShell 5.1 读取无 BOM 的 .ps1 时会按系统 ANSI
+# 代码页解码，脚本里的中文会变成乱码甚至导致语法错误 —— 必须带 UTF-8 BOM。
+# BOM 是文件自身的三个字节，git 原样保存（.ps1 不列入 text 属性的编码转换，
+# 只固定行尾为 CRLF）。注意：working-tree-encoding 不接受 UTF-8-with-BOM，
+# git 会报 "failed to encode ... from UTF-8-with-BOM to UTF-8"，故不可使用。
+*.ps1   text eol=crlf
+
+# 二进制（正常情况下不会入库，双保险）
+*.dat   binary
+*.dll   binary
+*.exe   binary
+*.png   binary
+*.wav   binary
+*.ttf   binary
+*.otf   binary

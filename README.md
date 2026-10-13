@@ -1,0 +1,153 @@
+# lego-indy2-chs
+
+《乐高印第安纳琼斯 2：冒险再续》（LEGO Indiana Jones 2: The Adventure
+Continues，2009，Traveller's Tales）简体中文本地化工程。
+
+从零逆向其自研 NXG 引擎的资源格式，实现中文文本、中文字体与 Windows
+中文系统下的存档修复。工具链为纯 Python 标准库 + ctypes，唯一需要外部
+依赖的是编译代理 DLL 用的 MinGW。
+
+> **本仓库不含任何游戏素材。** `GAME.dat` / `GAME2.dat`、原始文本、
+> 字体、音频等均未入库，也不会提供下载。请自行通过 Steam 购买正版
+> 游戏，工具只在你已合法拥有的副本上工作。详见 [LICENSE](LICENSE)。
+
+---
+
+## 这是什么
+
+一个「补丁生成器」，不是补丁成品。运行工具后会在你自己的游戏副本上
+生成中文 DAT 并安装，产出物仅供你个人使用。
+
+三类工作：
+
+| 方向 | 内容 |
+|---|---|
+| **资源格式逆向** | MkDat v4.0 归档结构、NFNT/FT2 字体结构（含内嵌 DXT5 DDS 图集）、`.GIP` 菜单包 |
+| **汉化** | 1927+ 行文本翻译、中文字体栅格化与图集打包、设置菜单标签 |
+| **运行时补丁** | `d3d9.dll` 代理：文件 API 代码页修复 + 菜单字符串指针重定向 |
+
+---
+
+## 快速上手
+
+### 前置
+
+1. 通过 Steam 安装正版游戏，且至少启动过一次
+2. Python 3.8+（开发用 3.13）
+3. MinGW i686-w64-mingw32（仅编译代理 DLL 需要）
+
+### 构建与安装
+
+```bash
+# 1. 生成 UI 补丁表（会读你本机的游戏 exe）
+python tools/gen_ui_patch.py
+
+# 2. 编译代理 DLL
+cd src/d3d9proxy
+gcc -m32 -O2 -shared -o d3d9.dll d3d9proxy.c d3d9.def \
+    -Wl,--kill-at -static-libgcc -static-libstdc++
+
+# 3. 把 DLL 放进 patch/payload/data/，然后运行安装脚本
+#    Windows 上右键 patch/安装.ps1 →「使用 PowerShell 运行」
+```
+
+各步骤的详细说明见 [`patch/README.md`](patch/README.md)（面向使用者）与
+[`docs/`](docs/)（面向开发者）。
+
+---
+
+## 仓库结构
+
+```
+├── src/d3d9proxy/        代理 DLL 源码（C）
+│   ├── d3d9proxy.c         主逻辑：IAT hook + 菜单补丁 + 系统 d3d9 转发
+│   ├── d3d9.def            16 个导出的别名映射
+│   └── ui_patch.h          由 gen_ui_patch.py 生成，勿手改
+├── tools/                84 个 Python 工具（标准库 + ctypes，无三方依赖）
+├── translations/         译文表（KEY → 简体中文）
+├── patch/                分发包骨架：安装/卸载脚本与用户文档
+│   └── payload/            运行时数据（DAT、DLL 在此生成，不入库）
+└── docs/                 逆向笔记与踩坑记录
+```
+
+---
+
+## 值得一看的技术点
+
+### 菜单标签汉化：改指针而非改字符串
+
+设置菜单的英文（`Video Settings` 等）不在 DAT 里，硬编码在 exe 的
+`.rdata`，且每条串后紧跟下一条、**零余量**，原地替换中文放不下。改 exe
+文件又会触发 Steam DRM（`.bind` 节可执行 + `STEAM` 标记）。
+
+解法是 exe `.data` 节里的一张**多语言 UI 字符串指针表**：每项 8 字节
+`{char* text; uint32 id;}`，每种语言各有一份完整并行翻译。补丁只把英文
+那 80 处指针改指向自备的 UTF-8 缓冲区 —— 指针大小不变，故不受零余量
+限制，不碰文件、不触发 DRM。
+
+三项前置条件缺一不可：
+
+- **边界要划准**。表真实范围 `0xAB09F0`–`0xAB17DC`；`0xAB2C08` 之后已是
+  着色器语义名（`viewProj` / `SEMANTIC_*`），属另一张表
+- **RVA 换算**：`.data` 段实测 `VA == RawAddr`，故**文件偏移本身就是
+  RVA**。按「偏移 − ImageBase」换算会整体偏 0x400000，写到无关地址上
+- **编码是 UTF-8，不是系统 ANSI**。曾误注入 GBK 导致菜单显示为一排问号
+  —— 而问号正是严格 UTF-8 解码器把非法字节替换成 `?` 的典型表现
+
+### 存档修复：IAT hook 文件 API
+
+游戏是 2009 年的非 Unicode 程序，只用 ANSI 文件 API，且 exe 硬编码了
+CP1252/1254 编码的存档目录名（含 `®` `™`）。中文系统（GBK/CP936）下
+这些字节被内核转成 `?`（非法文件名字符）→ 存档失败跳出。
+
+代理 hook `CreateFileA` 等 9 个 A 版 API，把路径按 CP1254 转成 Unicode
+后调 W 版，从而绕过内核的 GBK 转换。纯 ASCII 路径在 CP1254 下映射不变，
+对其它路径无副作用。
+
+### 代理 DLL 必须自实现全部导出
+
+游戏用 `LoadLibraryA("d3d9.dll")` + `GetProcAddress("Direct3DCreate9")`
+**运行时动态加载**，导入表里没有 d3d9 条目。靠文件名劫持被加载的代理
+必须把 d3d9 的 16 个导出全部自己实现出来。
+
+早期版本转发到同目录的 `d3d9_orig.dll`，这要求分发包附带一份系统 d3d9
+副本 —— 而那份副本的版本被硬钉在打包者电脑上，别人机器上只要系统版本
+不同就直接加载失败，**且症状与「文件不存在」完全一样**，极难排查。现在
+改为运行时 `GetSystemDirectoryW` + `IsWow64Process` 自行定位系统 d3d9
+并转发，跨 Windows 版本自适应，补丁目录只需一个 `d3d9.dll`。
+
+### 三重自保
+
+每条补丁先读回指针、确认仍等于期望的英文串 VA，再逐字节 `strcmp`
+比对内容，任一不符即跳过。Steam 更新或版本漂移时补丁自然退化为无操作，
+不会写坏内存。
+
+---
+
+## 开发
+
+```bash
+# 离线仿真 UI 补丁（不启动游戏，验证 80 条全部命中、无越界）
+python tools/sim_ui_patch.py
+
+# 校验导出表：16 个导出须全为真实代码，不能有 forwarder 残留
+python tools/check_exports.py <dll路径>
+
+# 检查译文用字是否都在字体里（编码问题与缺字问题要分开看）
+python tools/fix_font_coverage.py
+```
+
+更多工具说明见 [`docs/tools.md`](docs/tools.md)。
+
+---
+
+## 致谢
+
+- Traveller's Tales 的 NXG 引擎与 [lego-tt-nxg-formats](https://github.com/tygerx/lego-tt-nxg-formats)
+  社区对格式的公开研究
+- 原作的剧情、美术与配音由其各自权利方所有
+
+## 许可
+
+源代码与文档以 [MIT](LICENSE) 许可。**游戏素材不在授权范围内**，
+请自行购买正版。
