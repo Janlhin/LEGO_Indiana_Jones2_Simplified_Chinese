@@ -41,7 +41,7 @@ common = os.path.join(REPO, "patch", "payload", "lib", "Common.ps1")
 with open(common, encoding="utf-8-sig") as fh:
     m = re.search(r"\$script:PatchVersion\s*=\s*'([0-9]+\.[0-9]+\.[0-9]+)'", fh.read())
 ver = m.group(1) if m else None
-top = "LEGO_IndianaJones2_Simplified_Chinese_v%s" % ver if ver else None
+top = "LEGO_Indiana_Jones2_Simplified_Chinese_v%s" % ver if ver else None
 
 print("=== 1. 分卷齐备 ===")
 if ver is None:

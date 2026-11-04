@@ -3,7 +3,7 @@
 
 分发包结构（与 patch/README.md 里的目录树一致）::
 
-    LEGO_IndianaJones2_Simplified_Chinese_v<版本>/
+    LEGO_Indiana_Jones2_Simplified_Chinese_v<版本>/
     ├── 安装.ps1
     ├── 卸载.ps1
     ├── lib/Common.ps1
@@ -24,8 +24,15 @@
 GitHub Release 单个附件上限 2 GB，而两个 DAT 压缩后仍逼近这条线，
 因此默认拆成两个分卷，两个分卷解到同一个目录即可拼出完整包::
 
-    LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part1.zip   脚本 + 文档 + GAME.dat + d3d9.dll + 语音
-    LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part2.zip   GAME2.dat
+    LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip   脚本 + 文档 + GAME.dat + d3d9.dll + 语音
+    LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip   GAME2.dat
+
+另外单独输出一份代理 DLL::
+
+    d3d9.dll
+
+已经装好汉化 DAT、只想补一个代理 DLL（存档修复 + 设置菜单中文化）的用户
+不必为此下载 1.8 GB，直接取这个附件改名放进游戏目录即可。
 
 用法::
 
@@ -33,8 +40,10 @@ GitHub Release 单个附件上限 2 GB，而两个 DAT 压缩后仍逼近这条�
     python tools/build_dist.py --game ... --out dist --level 1
 """
 import argparse
+import hashlib
 import os
 import re
+import shutil
 import sys
 import zipfile
 
@@ -42,6 +51,14 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GITHUB_ASSET_LIMIT = 2 * 1024 * 1024 * 1024 - 1   # GitHub Release 单附件 2 GB 上限
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def read_patch_version(patch_dir):
@@ -101,7 +118,7 @@ def main():
     a = ap.parse_args()
 
     version = read_patch_version(a.patch)
-    top = "LEGO_IndianaJones2_Simplified_Chinese_v%s" % version
+    top = "LEGO_Indiana_Jones2_Simplified_Chinese_v%s" % version
     items = collect(a.patch, a.game, a.vo_dir)
     os.makedirs(a.out, exist_ok=True)
 
@@ -130,9 +147,29 @@ def main():
     total = sum(os.path.getsize(p) for p, _ in outputs)
     print()
     print("共 %d 个包，合计 %.1f MB" % (len(outputs), total / 1048576))
+
+    # ---- 单独分发的代理 DLL ------------------------------------------------
+    # 除了打进 part1.zip，还在 dist/ 放一份独立的 d3d9.dll：
+    # 已经装好汉化 DAT、只想补一个代理 DLL 的用户不必下载 1.8 GB。
+    dll_src = os.path.join(a.game, "d3d9.dll")
+    if os.path.exists(dll_src):
+        dll_out = os.path.join(a.out, "d3d9.dll")
+        shutil.copy2(dll_src, dll_out)
+        print()
+        print("单独分发的代理 DLL：")
+        print("  %-46s %9.1f KB" % (os.path.basename(dll_out),
+                                   os.path.getsize(dll_out) / 1024))
+        print("  sha256  : %s" % sha256(dll_out))
+    else:
+        print()
+        print("!! 游戏目录里没有 d3d9.dll，跳过单独分发")
+
+    print()
     print("上传命令：")
     for path, _ in outputs:
         print("  gh release upload 2.0.0 \"%s\"" % path)
+    if os.path.exists(os.path.join(a.out, "d3d9.dll")):
+        print("  gh release upload 2.0.0 \"%s\"" % os.path.join(a.out, "d3d9.dll"))
 
 
 if __name__ == "__main__":

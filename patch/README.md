@@ -14,12 +14,12 @@
 
 | 分卷 | 内容 |
 | --- | --- |
-| `LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
-| `LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part2.zip` | `data\GAME2.dat` |
+| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
+| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip` | `data\GAME2.dat` |
 
 > 📌 **两个包必须解到同一个目录**，否则安装脚本的自检会直接报错。
 
-📍 发布页：<https://github.com/Janlhin/LEGO_IndianaJones2_Simplified_Chinese/releases/tag/2.0.0>
+📍 发布页：<https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.0.0>
 
 ---
 
@@ -108,7 +108,7 @@
 ## 📁 目录结构
 
 ```
-LEGO_IndianaJones2_Simplified_Chinese_v2.0.0/
+LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0/
 ├── 安装.ps1         一键安装
 ├── 卸载.ps1         一键还原
 ├── lib/

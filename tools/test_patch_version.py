@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """实跑 PowerShell dot-source 校验**真实发布包**里的 Common.ps1。
 
-原先这个脚本指向 `dist/LEGO_IndianaJones2_Simplified_Chinese_v2.0.0` 目录，
+原先这个脚本指向 `dist/LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0` 目录，
 但 v2.0.0 起分发件改成了两个分卷 zip，那个目录根本不存在 —— 脚本一直是失效状态。
 
 现在改为：把 `dist/<包名>_part1.zip` 解到临时目录，对**玩家真正拿到的那份**
@@ -30,9 +30,9 @@ def find_package():
         return None, 'dist/ 不存在，先跑 python tools/build_dist.py --game "<游戏目录>"'
     cands = [f for f in sorted(os.listdir(DIST))
              if f.endswith("_part1.zip")
-             and f.startswith("LEGO_IndianaJones2_Simplified_Chinese")]
+             and f.startswith("LEGO_Indiana_Jones2_Simplified_Chinese")]
     if not cands:
-        return None, "dist/ 里没有 LEGO_IndianaJones2_Simplified_Chinese_*_part1.zip"
+        return None, "dist/ 里没有 LEGO_Indiana_Jones2_Simplified_Chinese_*_part1.zip"
     return os.path.join(DIST, cands[-1]), None
 
 

@@ -21,10 +21,10 @@
 
   完整补丁包分两个分卷发布在 GitHub Releases：
 
-    LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part1.zip
+    LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip
         安装.ps1 / 卸载.ps1 / lib / 说明文档
         data\GAME.dat / data\d3d9.dll / data\Audio\_VO
-    LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part2.zip
+    LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip
         data\GAME2.dat
 
   两个压缩包必须解到同一个目录，缺一个都装不上（脚本自检会报错）。
@@ -227,6 +227,17 @@
            再运行「安装.ps1」
 
 
+  Q11 只想单独拿代理 DLL，不想下载 1.8 GB 的分卷包？
+      Release 附件里另有一份独立的 d3d9.dll（58,220 字节，sha256
+      1a60de56fd730e85af395b90aaa49abe5179e08a19d8d4e9e32dfce8a9276d5d）。
+      它是存档修复与设置菜单中文化的载体，不依赖汉化 DAT —— 单独下载它、
+      改名放进游戏目录即可生效。
+      典型场景：汉化 DAT 已装好，但 Steam 验证游戏文件时把游戏目录里的 d3d9.dll
+      删掉了。这时不用重下整个补丁包，补一个 DLL 就行。
+      用法：下载后确认文件名就是 d3d9.dll，放进游戏目录
+      （...\steamapps\common\Lego Indiana Jones 2\）覆盖即可。
+      游戏目录里只需要这一个 d3d9.dll。
+
 ================================================================================
   六、文件清单
 ================================================================================
@@ -260,5 +271,5 @@
 
 ================================================================================
   更多技术细节、致谢与许可：见 README.md
-  项目主页：https://github.com/Janlhin/LEGO_IndianaJones2_Simplified_Chinese
+  项目主页：https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese
 ================================================================================
