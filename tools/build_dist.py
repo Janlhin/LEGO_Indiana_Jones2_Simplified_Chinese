@@ -3,7 +3,7 @@
 
 分发包结构（与 patch/README.md 里的目录树一致）::
 
-    LEGO_Indiana_Jones_2_CHS_v<版本>/
+    LEGO_IndianaJones2_Simplified_Chinese_v<版本>/
     ├── 安装.ps1
     ├── 卸载.ps1
     ├── lib/Common.ps1
@@ -24,8 +24,8 @@
 GitHub Release 单个附件上限 2 GB，而两个 DAT 压缩后仍逼近这条线，
 因此默认拆成两个分卷，两个分卷解到同一个目录即可拼出完整包::
 
-    LEGO_Indiana_Jones_2_CHS_v2.0.0_part1.zip   脚本 + 文档 + GAME.dat + d3d9.dll + 语音
-    LEGO_Indiana_Jones_2_CHS_v2.0.0_part2.zip   GAME2.dat
+    LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part1.zip   脚本 + 文档 + GAME.dat + d3d9.dll + 语音
+    LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part2.zip   GAME2.dat
 
 用法::
 
@@ -101,7 +101,7 @@ def main():
     a = ap.parse_args()
 
     version = read_patch_version(a.patch)
-    top = "LEGO_Indiana_Jones_2_CHS_v%s" % version
+    top = "LEGO_IndianaJones2_Simplified_Chinese_v%s" % version
     items = collect(a.patch, a.game, a.vo_dir)
     os.makedirs(a.out, exist_ok=True)
 

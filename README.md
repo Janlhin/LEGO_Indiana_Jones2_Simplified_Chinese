@@ -7,7 +7,7 @@
 > 🈶 **成品补丁可直接下载** —— GitHub Release 提供完整可安装包（含汉化 DAT），无需自行构建。
 > 🛠️ **仓库同时提供全部原料与工具** —— 想自己重建、或想审校译文的玩家，这里是完整工程。
 
-📍 发布页：<https://github.com/Janlhin/lego-indy2-chs/releases/tag/2.0.0>
+📍 发布页：<https://github.com/Janlhin/LEGO_IndianaJones2_Simplified_Chinese/releases/tag/2.0.0>
 
 ---
 
@@ -17,8 +17,8 @@
 
 | 分卷 | 内容 |
 | --- | --- |
-| `LEGO_Indiana_Jones_2_CHS_v2.0.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
-| `LEGO_Indiana_Jones_2_CHS_v2.0.0_part2.zip` | `data\GAME2.dat` |
+| `LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
+| `LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part2.zip` | `data\GAME2.dat` |
 
 **两个包必须解到同一个目录**，然后右键 `安装.ps1` →「使用 PowerShell 运行」。全程约 2–4 分钟，无需管理员权限，无需改动系统区域。
 
@@ -72,7 +72,7 @@ PY
 
 | 想做什么 | 从哪儿开始 |
 | --- | --- |
-| 我只想装汉化 | 去 [Releases](https://github.com/Janlhin/lego-indy2-chs/releases/tag/2.0.0) 下两个分卷，解到同一目录，跑 `安装.ps1` |
+| 我只想装汉化 | 去 [Releases](https://github.com/Janlhin/LEGO_IndianaJones2_Simplified_Chinese/releases/tag/2.0.0) 下两个分卷，解到同一目录，跑 `安装.ps1` |
 | 我想审校 / 补翻译文 | 改 [`translations/text.csv`](translations/text.csv)，然后按下面「自行构建」重跑 |
 | 我想复现整个构建链 | 见下面「自行构建」，工具链全在 `tools/` |
 | 我想研究 NXG 格式 | [`docs/research-notes.md`](docs/research-notes.md) 是踩坑记录，`tools/ttdat.py` / `ttfnt.py` 是独立实现 |
@@ -123,8 +123,8 @@ gcc -m32 -O2 -shared -o d3d9.dll d3d9proxy.c d3d9.def \
 
 ```bash
 python tools/build_dist.py --game "D:\SteamLibrary\steamapps\common\Lego Indiana Jones 2"
-# 输出：dist/LEGO_Indiana_Jones_2_CHS_v2.0.0_part1.zip
-#       dist/LEGO_Indiana_Jones_2_CHS_v2.0.0_part2.zip
+# 输出：dist/LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part1.zip
+#       dist/LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part2.zip
 ```
 
 各步骤的详细说明见 [`patch/README.md`](patch/README.md)（面向使用者）与 [`docs/`](docs/)（面向开发者）。

@@ -21,7 +21,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 GAME = r"D:\SteamLibrary\steamapps\common\Lego Indiana Jones 2"
 PATCH = (r"C:\Users\Janlhin\WorkBuddy\2026-09-30-22-09-12\work"
-         r"\dist\LEGO_Indiana_Jones_2_CHS_v1.0\data")
+         r"\dist\LEGO_IndianaJones2_Simplified_Chinese_v1.0\data")
 
 # CJK 统一表意文字：基本汉字 + 扩展 A + 兼容汉字
 #

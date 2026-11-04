@@ -20,6 +20,13 @@
 
 ### 新增
 
+- **项目标识统一为 `LEGO_IndianaJones2_Simplified_Chinese`。** 仓库名与发布包名
+  改成同一个标识：GitHub 仓库 `Janlhin/lego-indy2-chs` →
+  `Janlhin/LEGO_IndianaJones2_Simplified_Chinese`（旧地址保留 301 重定向，
+  老链接不失效）；发布包由 `LEGO_Indiana_Jones_2_CHS_v2.0.0_partN.zip` 改为
+  `LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_partN.zip`，包内顶层目录同理。
+  `manifest` / `Common.ps1` 里的 `$script:PatchVersion` 仍是 `2.0.0` ——
+  改的是项目标识，不是补丁内容，汉化 DAT 一字未动
 - **成品补丁走 GitHub Release 分发。** 汉化 DAT（`GAME.dat` 980.8 MB /
   `GAME2.dat` 925.0 MB）仍不入库（GitHub 单文件硬限 100 MB，且原版素材
   不在 MIT 授权内），但 Release 附件上限 2 GB，故打成**两个分卷 zip**

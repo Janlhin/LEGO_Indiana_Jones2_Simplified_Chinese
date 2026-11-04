@@ -21,10 +21,10 @@
 
   完整补丁包分两个分卷发布在 GitHub Releases：
 
-    LEGO_Indiana_Jones_2_CHS_v2.0.0_part1.zip
+    LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part1.zip
         安装.ps1 / 卸载.ps1 / lib / 说明文档
         data\GAME.dat / data\d3d9.dll / data\Audio\_VO
-    LEGO_Indiana_Jones_2_CHS_v2.0.0_part2.zip
+    LEGO_IndianaJones2_Simplified_Chinese_v2.0.0_part2.zip
         data\GAME2.dat
 
   两个压缩包必须解到同一个目录，缺一个都装不上（脚本自检会报错）。
@@ -260,5 +260,5 @@
 
 ================================================================================
   更多技术细节、致谢与许可：见 README.md
-  项目主页：https://github.com/Janlhin/lego-indy2-chs
+  项目主页：https://github.com/Janlhin/LEGO_IndianaJones2_Simplified_Chinese
 ================================================================================
