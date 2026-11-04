@@ -19,23 +19,11 @@
 | --- | --- |
 | `LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
 | `LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip` | `data\GAME2.dat` |
-| `d3d9.dll` | **单独分发的代理 DLL**（56.9 KB），见下方说明 |
 
 **两个包必须解到同一个目录**，然后右键 `安装.ps1` →「使用 PowerShell 运行」。全程约 2–4 分钟，无需管理员权限，无需改动系统区域。
 
 📖 详细步骤见 [`patch/安装说明.md`](patch/安装说明.md)（图文版）或 `patch/安装说明.txt`（纯文本版）。
 
-### 🧩 单独分发代理 DLL
-
-Release 里另有一份独立的 `d3d9.dll`（58,220 字节，sha256 `1a60de56fd730e85af395b90aaa49abe5179e08a19d8d4e9e32dfce8a9276d5d`）。它就是装在 `part1.zip` 里的那一个代理 DLL，单独提供是为了**不必为此下载 1.8 GB**：
-
-- 🛡️ 提供**存档修复**（中文系统下存档跳出 / 无法保存）
-- ⚙️ 提供**设置菜单中文化**（40 个界面标签 / 80 处显示点）
-- 🔧 需要它的典型场景：汉化 DAT 已装好，但 Steam 验证把游戏目录里的 `d3d9.dll` 删掉了
-
-用法：下载后确认文件名就是 `d3d9.dll`，放进游戏目录（`...\steamapps\common\Lego Indiana Jones 2\`）覆盖即可。它不依赖 DAT，单独放进去就能工作。
-
-> ⚠️ 游戏目录里**只需要这一个** `d3d9.dll`，不需要 `d3d9_orig.dll`（那个方案已废弃，见「值得一看的技术点」）。
 
 ---
 
@@ -88,6 +76,7 @@ PY
 | 我只想装汉化 | 去 [Releases](https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.0.0) 下两个分卷，解到同一目录，跑 `安装.ps1` |
 | 我想审校 / 补翻译文 | 改 [`translations/text.csv`](translations/text.csv)，然后按下面「自行构建」重跑 |
 | 我想复现整个构建链 | 见下面「自行构建」，工具链全在 `tools/` |
+| 我想知道下一步做什么 | 见 [`docs/TODO.md`](docs/TODO.md)（已决事项与待评估项） |
 | 我想研究 NXG 格式 | [`docs/research-notes.md`](docs/research-notes.md) 是踩坑记录，`tools/ttdat.py` / `ttfnt.py` 是独立实现 |
 
 ### 🔒 为什么 DAT 不入库，但成品可以下载

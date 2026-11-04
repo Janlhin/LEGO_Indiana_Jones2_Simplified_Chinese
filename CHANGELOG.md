@@ -20,11 +20,6 @@
 
 ### 新增
 
-- **代理 DLL 单独分发。** Release 附件里除两个分卷外，另有一份独立的
-  `d3d9.dll`（58,220 字节，sha256 `1a60de56fd730e85af395b90aaa49abe5179e08a19d8d4e9e32dfce8a9276d5d`）。
-  它承担**存档修复**与**设置菜单中文化**，**不依赖汉化 DAT**，所以已装好
-  DAT、只想补代理 DLL 的用户不必为此下载 1.8 GB。`tools/build_dist.py`
-  一并产出这份独立 DLL，打包与发布同源
 - **项目标识统一为 `LEGO_Indiana_Jones2_Simplified_Chinese`。** 仓库名与发布包名
   改成同一个标识：GitHub 仓库 `Janlhin/lego-indy2-chs` →
   `Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese`（旧地址保留 301 重定向，

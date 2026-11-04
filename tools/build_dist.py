@@ -27,13 +27,6 @@ GitHub Release 单个附件上限 2 GB，而两个 DAT 压缩后仍逼近这条�
     LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip   脚本 + 文档 + GAME.dat + d3d9.dll + 语音
     LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip   GAME2.dat
 
-另外单独输出一份代理 DLL::
-
-    d3d9.dll
-
-已经装好汉化 DAT、只想补一个代理 DLL（存档修复 + 设置菜单中文化）的用户
-不必为此下载 1.8 GB，直接取这个附件改名放进游戏目录即可。
-
 用法::
 
     python tools/build_dist.py --game "D:\\SteamLibrary\\steamapps\\common\\Lego Indiana Jones 2"
@@ -147,29 +140,10 @@ def main():
     total = sum(os.path.getsize(p) for p, _ in outputs)
     print()
     print("共 %d 个包，合计 %.1f MB" % (len(outputs), total / 1048576))
-
-    # ---- 单独分发的代理 DLL ------------------------------------------------
-    # 除了打进 part1.zip，还在 dist/ 放一份独立的 d3d9.dll：
-    # 已经装好汉化 DAT、只想补一个代理 DLL 的用户不必下载 1.8 GB。
-    dll_src = os.path.join(a.game, "d3d9.dll")
-    if os.path.exists(dll_src):
-        dll_out = os.path.join(a.out, "d3d9.dll")
-        shutil.copy2(dll_src, dll_out)
-        print()
-        print("单独分发的代理 DLL：")
-        print("  %-46s %9.1f KB" % (os.path.basename(dll_out),
-                                   os.path.getsize(dll_out) / 1024))
-        print("  sha256  : %s" % sha256(dll_out))
-    else:
-        print()
-        print("!! 游戏目录里没有 d3d9.dll，跳过单独分发")
-
     print()
     print("上传命令：")
     for path, _ in outputs:
         print("  gh release upload 2.0.0 \"%s\"" % path)
-    if os.path.exists(os.path.join(a.out, "d3d9.dll")):
-        print("  gh release upload 2.0.0 \"%s\"" % os.path.join(a.out, "d3d9.dll"))
 
 
 if __name__ == "__main__":
