@@ -19,6 +19,10 @@
 # 导入库（链接副产物）
 src/d3d9proxy/*.a
 
+# 分发包构建产物（tools/build_dist.py 打出，合计约 1.8 GB）
+# 成品通过 GitHub Release 附件分发，不入库
+dist/
+
 # 从游戏提取的原始素材 —— 版权内容，一律不入库
 # （assets/fonts/ 下的白名单文件除外，靠下方 ! 规则重新纳入）
 *.tsv

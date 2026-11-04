@@ -1,102 +1,146 @@
-"""端到端模拟：跑一遍 安装.bat 的核心逻辑，验证改造后不出错。
+# -*- coding: utf-8 -*-
+"""校验分发包（两个分卷 zip）是否符合发布要求。
 
-不真的复制 2 GB 的 DAT（太慢也没必要），而是把copy 目标换成小文件，
-验证脚本的分支走向、错误检查、自检提示是否都正确。
+v2.0.0 起分发包由 tools/build_dist.py 打成两个分卷，取代了 v1.0 时代
+「dist/ 单目录 + .bat」的结构。本脚本直接读 zip 内容做端到端校验：
 
-做法：读出 安装.bat，逐行 echo 出被"执行"的行，人工核对控制流；
-同时用 cmd 实际跑一个缩减版，验证 d3d9.dll 那段的 errorlevel 分支。
+  1. 分卷齐备、命名与 $script:PatchVersion 一致
+  2. 每个分卷都在 GitHub Release 的 2 GB 单附件上限内
+  3. 两个分卷解到同一目录后，包内容完整（脚本/文档/lib/data）
+  4. 包内 .ps1 带 UTF-8 BOM、.txt 带 BOM 且全 CRLF
+  5. 包内不再残留任何 .bat
 """
-import io
 import os
 import re
-import subprocess
 import sys
+import zipfile
 
-BASE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                    "dist", "LEGO_Indiana_Jones_2_CHS_v1.0")
-SELF = sys.stdout.reconfigure(encoding="utf-8")
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DIST = os.path.join(REPO, "dist")
+GITHUB_ASSET_LIMIT = 2 * 1024 * 1024 * 1024 - 1
 
-
-def read_gbk(name):
-    with open(os.path.join(BASE, name), "rb") as f:
-        return f.read().decode("gbk")
+ok = True
 
 
-print("=" * 60)
-print("1. 安装.bat 关键行检查")
-print("=" * 60)
+def fail(msg):
+    global ok
+    ok = False
+    print("  [FAIL] " + msg)
 
-t = read_gbk("安装.bat")
-ls = t.split("\r\n")
 
-# a) 不应再有复制 d3d9_orig 的行
-bad = [l for l in ls if "d3d9_orig.dll" in l and "copy /Y" in l]
-print("[%s] 不再有 copy d3d9_orig.dll%s"
-      % ("OK" if not bad else "FAIL", "" if not bad else " -> " + str(bad)))
+def good(msg):
+    print("  [ok]   " + msg)
 
-# b) 不应再有 reg add
-bad2 = [l for l in ls if re.search(r"^\s*reg add", l, re.I)]
-print("[%s] 不再有 reg add%s"
-      % ("OK" if not bad2 else "FAIL", "" if not bad2 else " -> " + str(bad2)))
 
-# c) d3d9.dll 的copy 必须带 errorlevel 检查
-i = next((i for i, l in enumerate(ls) if "copy /Y" in l and "data\\d3d9.dll" in l), -1)
-seg = "\r\n".join(ls[i:i + 8]) if i >= 0 else ""
-ok3 = i >= 0 and "if errorlevel 1" in seg
-print("[%s] d3d9.dll copy 后有 errorlevel 检查" % ("OK" if ok3 else "FAIL"))
-if i >= 0:
-    for k in range(i, min(i + 9, len(ls))):
-        print("      %3d| %s" % (k + 1, ls[k]))
+def skip(msg):
+    print("  [--]   " + msg)
 
-# d) 所有 copy 是否都有检查
-print("\n  所有 copy 行及其后是否检查:")
-for i, l in enumerate(ls):
-    if re.match(r"\s*copy /Y", l, re.I):
-        nxt = "\n".join(ls[i + 1:i + 3])
-        has = "if errorlevel" in nxt
-        # DAT 的两个 copy 已有检查；xcopy 的不算
-        print("      [%s] %s" % ("OK" if has else "!!", l.strip()[:60]))
 
-print()
-print("=" * 60)
-print("2. 卸载.bat 关键行检查")
-print("=" * 60)
-u = read_gbk("卸载.bat")
-ul = u.split("\r\n")
-bad3 = [l for l in ul if re.search(r"^\s*reg delete.*HKLM", l, re.I)]
-print("[%s] 不再有 HKLM reg delete%s"
-      % ("OK" if not bad3 else "FAIL", "" if not bad3 else " -> " + str(bad3)))
-print("[%s] 仍清理旧版 d3d9_orig 残留"
-      % ("OK" if any("d3d9_orig.dll" in l for l in ul) else "FAIL"))
+# ---------------------------------------------------------------- 版本号
+common = os.path.join(REPO, "patch", "payload", "lib", "Common.ps1")
+with open(common, encoding="utf-8-sig") as fh:
+    m = re.search(r"\$script:PatchVersion\s*=\s*'([0-9]+\.[0-9]+\.[0-9]+)'", fh.read())
+ver = m.group(1) if m else None
+top = "LEGO_Indiana_Jones_2_CHS_v%s" % ver if ver else None
 
-print()
-print("=" * 60)
-print("3. 编码与换行（cmd.exe 对纯 LF + GBK 中文会逐行丢首字节）")
-print("=" * 60)
-for name in ("安装.bat", "卸载.bat", "安装说明.txt"):
-    with open(os.path.join(BASE, name), "rb") as f:
-        d = f.read()
-    crlf = d.count(b"\r\n")
-    total = d.count(b"\n")
-    pure_lf = total - crlf
-    try:
-        d.decode("gbk")
-        enc_ok = True
-    except Exception:
-        enc_ok = False
-    print("  %-14s CRLF %3d  纯LF %3d  GBK可解码 %s  %s"
-          % (name, crlf, pure_lf, "是" if enc_ok else "否",
-             "OK" if pure_lf == 0 and enc_ok else "!!"))
+print("=== 1. 分卷齐备 ===")
+if ver is None:
+    fail("读不到 $script:PatchVersion")
+    sys.exit(1)
+good("版本 %s" % ver)
 
-print()
-print("=" * 60)
-print("4. 分发包内容")
-print("=" * 60)
-for root, dirs, files in os.walk(BASE):
-    rel = os.path.relpath(root, BASE)
-    if "Audio" in rel:
+zips = []
+for suffix in ("_part1.zip", "_part2.zip"):
+    p = os.path.join(DIST, top + suffix)
+    if os.path.exists(p):
+        zips.append(p)
+        good("%s（%.1f MB）" % (os.path.basename(p), os.path.getsize(p) / 1048576.0))
+    else:
+        fail("缺少 %s —— 先跑 python tools/build_dist.py --game \"<游戏目录>\"" % (top + suffix))
+
+if len(zips) < 2:
+    print("\n" + "=" * 60)
+    print("结果：存在问题")
+    sys.exit(1)
+
+print("\n=== 2. GitHub Release 2 GB 单附件上限 ===")
+for p in zips:
+    size = os.path.getsize(p)
+    if size <= GITHUB_ASSET_LIMIT:
+        good("%s 未超限（余量 %.0f MB）"
+             % (os.path.basename(p), (GITHUB_ASSET_LIMIT - size) / 1048576.0))
+    else:
+        fail("%s 超过 2 GB 上限，GitHub 会拒绝上传" % os.path.basename(p))
+
+print("\n=== 3. 两个分卷的顶层目录一致 ===")
+tops = set()
+for p in zips:
+    with zipfile.ZipFile(p) as zf:
+        names = zf.namelist()
+    if not names:
+        fail("%s 是空包" % os.path.basename(p))
         continue
-    for fn in files:
-        p = os.path.join(root, fn)
-        print("  %10d  %s" % (os.path.getsize(p),
-                              os.path.relpath(p, BASE).replace("\\", "/")))
+    tops.add(names[0].split("/")[0])
+if len(tops) == 1:
+    good("顶层目录统一为 %s" % tops.pop())
+else:
+    fail("顶层目录不一致：%s —— 两个分卷必须解到同一目录" % sorted(tops))
+
+print("\n=== 4. 包内容完整性（两个分卷合并后）===")
+allnames = []
+for p in zips:
+    with zipfile.ZipFile(p) as zf:
+        allnames.extend(zf.namelist())
+
+# 去掉顶层目录后比较
+stripped = [n.split("/", 1)[1] for n in allnames if "/" in n]
+REQUIRED = ["安装.ps1", "卸载.ps1", "lib/Common.ps1", "README.md",
+            "安装说明.md", "安装说明.txt",
+            "data/GAME.dat", "data/GAME2.dat", "data/d3d9.dll"]
+for rel in REQUIRED:
+    if rel in stripped:
+        good(rel)
+    else:
+        fail("缺少 %s" % rel)
+
+vo = [n for n in stripped if n.startswith("data/Audio/_VO/")]
+if len(vo) >= 46:
+    good("data/Audio/_VO/ %d 个文件（角色语音修复）" % len(vo))
+else:
+    fail("data/Audio/_VO/ 只有 %d 个文件，应为 46 个" % len(vo))
+
+print("\n=== 5. 包内编码 ===")
+for p in zips:
+    with zipfile.ZipFile(p) as zf:
+        for rel in REQUIRED:
+            hit = [n for n in zf.namelist() if n.endswith("/" + rel)]
+            if not hit:
+                continue
+            raw = zf.read(hit[0])
+            if rel.endswith(".ps1"):
+                if raw[:3] == b"\xef\xbb\xbf":
+                    good("%s 带 UTF-8 BOM" % rel)
+                else:
+                    fail("%s 缺少 UTF-8 BOM" % rel)
+            elif rel.endswith(".txt"):
+                crlf = raw.count(b"\r\n")
+                lf = raw.count(b"\n") - crlf
+                if raw[:3] == b"\xef\xbb\xbf":
+                    good("%s 带 UTF-8 BOM" % rel)
+                else:
+                    fail("%s 缺少 UTF-8 BOM" % rel)
+                if lf == 0:
+                    good("%s 全部 CRLF 换行（%d 行）" % (rel, crlf))
+                else:
+                    fail("%s 混有 %d 个纯 LF 换行" % (rel, lf))
+
+print("\n=== 6. 不应再有 .bat ===")
+bats = [n for n in allnames if n.lower().endswith(".bat")]
+if bats:
+    fail("包内仍有 .bat：%s" % bats)
+else:
+    good("包内无任何 .bat（v2.0.0 起纯 PowerShell）")
+
+print("\n" + "=" * 60)
+print("结果：" + ("全部通过" if ok else "存在问题"))
+sys.exit(0 if ok else 1)

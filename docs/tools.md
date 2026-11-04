@@ -1,6 +1,6 @@
 # 工具清单
 
-52 个 Python 工具，**全部只用标准库 + ctypes**，无第三方依赖。
+53 个 Python 工具，**全部只用标准库 + ctypes**，无第三方依赖。
 （例外：`build_font.py` 通过 ctypes 调 GDI32 栅格化，仍属标准库范畴。）
 
 大部分工具需要读取游戏文件，因此**只能在自备正版游戏的环境下运行**。
@@ -37,6 +37,7 @@ Steam 库。
 | `gen_ui_patch.py` | 解析 exe 的多语言指针表，生成 `ui_patch.h` |
 | `check_exports.py` | 校验代理 DLL 的 16 个导出全为真实代码，无 forwarder 残留 |
 | `deploy_dll.py` / `deploy.py` | 部署到游戏目录 |
+| `build_dist.py` | **打包分发件**：把 `patch/` 的 staging 布局还原成发行目录结构，装入本机游戏目录里的 DAT，输出两个分卷 zip（GitHub Release 单附件 2 GB 上限） |
 
 ### 格式解析库
 
@@ -61,8 +62,14 @@ Steam 库。
 | `fix_font_coverage.py` | 译文用字是否都在字体里。**编码问题与缺字问题要分开看**（见下） |
 | `check_candidate_zh.py` | 批量筛选全字形可用的候选译名，避免逐个试 |
 | `verify_version.py` | 版本号唯一来源、SemVer 正则、引用一致性、`.ps1` 的 UTF-8 BOM |
-| `verify_fnt.py` / `verify_deploy.py` / `verify_dist.py` | 字体、分发包、部署一致性 |
+| `verify_fnt.py` / `verify_deploy.py` / `verify_dist.py` | 字体、部署、分发包一致性（`verify_dist.py` 直接读两个分卷 zip 的内容做端到端校验） |
 | `check_dat_version.py` | 区分 DAT 是原版还是汉化版 |
+
+> ⚠️ `check_dat_version.py` 里的 `PATCH` 路径硬编码了旧工作目录（已失效），
+> 且它用的「扫全文件找 CJK」启发式在 1 GB 级二进制上误报严重 —— 原版 DAT
+> 也会命中。判定 DAT 是原版还是汉化版，**应当用 `tools/ttdat.py` 解析出
+> `stuff\text\text.csv` 再看 `ENGLISH` 列**（汉化版 1952 行含中文），
+> 别信那个 CJK 计数。
 
 ### 编码问题 vs 缺字问题
 

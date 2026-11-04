@@ -20,6 +20,15 @@
 
 ### 新增
 
+- **成品补丁走 GitHub Release 分发。** 汉化 DAT（`GAME.dat` 980.8 MB /
+  `GAME2.dat` 925.0 MB）仍不入库（GitHub 单文件硬限 100 MB，且原版素材
+  不在 MIT 授权内），但 Release 附件上限 2 GB，故打成**两个分卷 zip**
+  发布：`part1` 含脚本、文档、`GAME.dat`、`d3d9.dll` 与角色语音，
+  `part2` 含 `GAME2.dat`，两个分卷解到同一目录即可跑 `安装.ps1`。
+  新增 `tools/build_dist.py` 负责打包，`tools/verify_dist.py` 改为直接
+  读 zip 内容做端到端校验
+- **安装说明补纯文本版** —— 新增 `安装说明.txt`（UTF-8 BOM + CRLF），
+  与 `安装说明.md` 同源，方便在没有 Markdown 渲染的环境下阅读
 - **设置菜单汉化** —— 40 个界面标签 / 80 处显示点。这批标签硬编码在
   exe 里、不在 DAT 中，靠代理 DLL 在运行时改指针完成
 - **游戏目录自动定位重写。** 旧 `.bat` 里的 `libraryfolders.vdf` 正则
