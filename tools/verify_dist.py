@@ -122,6 +122,13 @@ for p in zips:
                     good("%s 带 UTF-8 BOM" % rel)
                 else:
                     fail("%s 缺少 UTF-8 BOM" % rel)
+                crlf = raw.count(b"\r\n")
+                lf = raw.count(b"\n") - crlf
+                if crlf > 0 and lf == 0:
+                    good("%s 全部 CRLF 换行（%d 行）" % (rel, crlf))
+                else:
+                    fail("%s 换行不是纯 CRLF（CRLF %d / 纯 LF %d）"
+                         % (rel, crlf, lf))
             elif rel.endswith(".txt"):
                 crlf = raw.count(b"\r\n")
                 lf = raw.count(b"\n") - crlf

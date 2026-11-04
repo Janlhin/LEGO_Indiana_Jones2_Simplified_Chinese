@@ -98,6 +98,17 @@ for rel in ("安装.ps1", "卸载.ps1", "payload/lib/Common.ps1"):
         good("%s 带 BOM（%d 字节）" % (rel, len(raw)))
     else:
         fail("%s 缺少 UTF-8 BOM —— Windows PowerShell 5.1 会按 ANSI 解码，中文将乱码" % rel)
+    # .gitattributes 声明 *.ps1 text eol=crlf，工作区应还原成 CRLF。
+    # 仓库里存的是 LF（由 git 规范化），但分发包是从工作区打的，
+    # 工作区若是 LF，打进包里的就是 LF —— 与本项目自身的加固口径矛盾。
+    crlf = raw.count(b"\r\n")
+    lf = raw.count(b"\n") - crlf
+    if crlf > 0 and lf == 0:
+        good("%s 全部 CRLF 换行（%d 行，与 .gitattributes 一致）" % (rel, crlf))
+    elif lf > 0 and crlf == 0:
+        fail("%s 是 LF-only（%d 行）—— .gitattributes 声明 *.ps1 text eol=crlf" % (rel, lf))
+    else:
+        fail("%s 换行混合（CRLF %d / 纯 LF %d）" % (rel, crlf, lf))
 
 print("\n=== 5. staging 布局完整性 ===")
 STAGING = [
