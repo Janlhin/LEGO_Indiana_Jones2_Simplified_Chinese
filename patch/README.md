@@ -26,7 +26,7 @@
 ## ✨ 特性
 
 - 🈶 **完整中文文本**：1927+ 行游戏文本全部汉化，覆盖主菜单、章节、角色、关卡、载具、作弊码、教程、网络联机、以及关卡编辑器（Builder）全套界面
-- 🔠 **中文字体**：楷体渲染，包含 1400+ 字符（1200+ 汉字），与游戏原版斜体手写风格统一
+- 🔠 **中文字体**：微软雅黑渲染，包含 1400+ 字符（1200+ 汉字）
 - ⚙️ **设置菜单汉化**：Video Settings / Screen Resolution / Vertical Sync / Shadows / Bloom 等 40 个界面标签全部中文化（80 处显示点）。这批标签硬编码在 exe 里、不在 DAT 中，靠 `d3d9.dll` 在运行时改指针完成 —— 不改游戏文件，故不触发 Steam 校验；按键名（Left / Space 等）按设计保持英文
 - 💾 **存档修复**：内置 d3d9 代理 DLL，修复了中文系统下存档跳出 / 无法保存的问题（无需再把系统区域改成土耳其语）
 - 🔊 **角色语音修复**：补齐 PC 版缺失的 46 个角色语音文件（跳跃 / 受伤 / 攻击 / 死亡音效）
@@ -168,7 +168,7 @@ LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0/
 - 🔊 **[Character Voice Restoration mod for Lego Indy 2](https://community.pcgamingwiki.com/files/file/2595-character-voice-restoration-mod-for-lego-indy-2/)（原始 mod 作者 Bario The Weird，PCGamingWiki 社区页由 SirYodaJedi 于 2023-03-08 提交）** — **本补丁 46 个角色语音文件（8 个角色目录，跳跃 / 受伤 / 攻击 / 死亡）的来源**。PC 版缺失了主机版才有的 `Audio_VO` 目录，此 mod 予以还原：主体音效取自 `Lego Indy 1` 的未压缩 WAV，`Donovan` 与 `Spalko` 两目录由 Wii 版的压缩 DSP 转码而来。本补丁沿用同一批文件，安装方式为直接覆盖，无需解包 DAT
   > 若你购买的是 **GOG.com 版**，官方自 2025-02-27 起已内置还原语音，可跳过这一步
 - 🇨🇳 **游民星空（Gamersky）** — 最初的《乐高侏罗纪世界》汉化包参考
-- 🖌️ **微软雅黑 / 楷体（Microsoft YaHei / KaiTi）** — 中文字形来源
+- 🖌️ **微软雅黑（Microsoft YaHei）** — 中文字形来源
 
 ---
 
