@@ -13,7 +13,7 @@
 | `PS2_FONT_J.txt` | 1,838 | `a5fe808afc0e4693` | 同上，另一处引用 |
 | `english.txt` | 26,821 | `6f9390d1fda26e61` | 英文文本索引 |
 | `american.txt` | 323 | `bf76d4a3e48a536c` | 美式文本索引 |
-| `japanese.txt` | 27,680 | `677f3fae3ba2c038` | 日文文本索引（保持原样，未汉化） |
+| `japanese.txt` | 27,680 | `677f3fae3ba2c038` | **文件名有误**：实为早期「日语槽方案」时期的 `english.txt` 快照（同注释头、同 id 190..990、480 行、0 假名、1,206 汉字）。**不是** DAT 里那份 43,464 字节的日文文件，见 `docs/research-notes.md` §2.3.1 |
 | `charset_full.txt` | 4,112 | `fcc4b24c998b33cb` | 本项目用到的完整字符集清单 |
 
 合计 18,294,084 字节（17.4 MB）。

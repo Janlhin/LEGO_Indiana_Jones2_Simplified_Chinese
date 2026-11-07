@@ -59,7 +59,7 @@
 | 文件 | 作用 |
 |---|---|
 | `stuff\text\text.csv` | **真正的运行时文本库**，2106 行，15 列 |
-| `stuff\text\<lang>.txt` | 旧流程产物，Indy2 中为残留（内容是哈利波特/蝙蝠侠） |
+| `stuff\text\<lang>.txt` | **角色名文本文件**，引擎按当前语言拼路径加载（`stuff\text\` 是格式前缀）。内容是别的游戏（星战等）的残留，但**在位**，且英文槽读的 `english.txt` 已被本项目汉化 —— 详见 §2.3.1 |
 | `gui\Font\<font>.txt` | 字体网格定义（UTF-16LE），逐行列出字符 |
 | `gui\Font\<font>_pc.fnt` | 位图字体容器（内嵌 DDS 图集） |
 
@@ -70,15 +70,49 @@ ITALIAN, DANISH, JAPANESE, RUSSIAN, HUNGARIAN, CZECH, POLISH`
 ### 2.3 语言 / 字体选择机制（exe 逆向）
 
 - 导入了 `GetUserDefaultLangID` → **自动跟随 Windows 系统语言**
-- `.rdata @ 0x903A80..0x9040B0` 存在一张 40 字节/条的语言表：
-  `{ u32 id, char* 显示名, char* 小写名, char* 字体名, float[6] }`
+
+**两段结构**（2026-11-07 用指针反查重新定位，此前记录的「0x903A80..0x9040B0 一条表」
+是把字符串块和记录表算在了一起，条目数也算错了）：
+
+| 区域 | raw 偏移 | 内容 |
+|---|---|---|
+| 字符串块 | `0x903A80` | 每条语言 36 字节 = 字体名/小写名/显示名 各 12 字节定长槽 |
+| 记录表 | `0x903D50` | **21 条 × 40 字节** `{ u32 id, char* 显示名, char* 小写名, char* 字体名, float[6] }` |
+
+**全部 21 条（按 id 排序）** —— 注意 `id=3 American` 的小写名也是 `english`：
 
 | id | 显示名 | 小写名 | 字体名 |
 |---|---|---|---|
 | 0 | Japanese | japanese | font_jpn |
+| 1 | Korean | korean | font_kor |
+| 2 | English | english | font |
+| **3** | **American** | **english** | **font** |
+| 4 | Deutsch | german | font |
+| 5 | Français | french | font |
+| 6 | Español | spanish | font |
+| 7 | Italiano | italian | font |
+| 8 | Nederlands | dutch | font |
+| 9 | Portuguese | portuguese | font |
+| 10 | Dansk | danish | font |
+| 11 | Norwegian | norwegian | font |
+| 12 | Swedish | swedish | font |
+| 13 | Finnish | finnish | font |
+| 14 | Greek | greek | font |
+| 15 | Czech | czech | font_cze |
+| 16 | Polish | polish | font_pol |
 | 17 | Russian | russian | font_rus |
+| 18 | Brazilian | brazilian | font |
 | **19** | **Chinese** | **chinese** | **font_chi** |
 | 20 | Hungarian | hungarian | font_hun |
+
+`0x904098` 处还有一条 id=21 的空记录（字段全 0），是表尾终止项，不是语言。
+
+**两条结论**：
+
+1. **没有繁体槽。** 21 条里只有 `chinese` 一个中文槽，没有 `taiwanese` / `traditional`
+   / `zh-TW` 之类的条目。简繁能否共存的问题由此确定（见 `TODO.md` 第 2 项）。
+2. **`English` 与 `American` 共用 `stuff\text\english.txt`。** 两条记录的小写名都是
+   `english`，所以「美式」不是独立文件，只是在同一份 character text 上的覆盖层。
 
 - 小写名与 `text.csv` 的**列名一一对应**（JAPANESE/RUSSIAN/HUNGARIAN/
   POLISH/CZECH 列都存在）⇒ 引擎按语言取 `text.csv` 的对应列
@@ -86,6 +120,55 @@ ITALIAN, DANISH, JAPANESE, RUSSIAN, HUNGARIAN, CZECH, POLISH`
   ⇒ 中文 Windows 下游戏回退到英文
 
 **汉化落点 = 给 `text.csv` 增加 `CHINESE` 列 + 提供中文字体。**
+
+### 2.3.1 `stuff\text\<lang>.txt` 在不在生效链上（2026-11-07 实测）
+
+这是 `TODO.md` 第 3 项的静态部分，结论：**在，但读的是当前语言的对应文件**。
+
+exe 里的证据（都是 raw 偏移）：
+
+| 偏移 | 字符串 |
+|---|---|
+| `0x903BF0` | `Fran` + `çais`（`ç` 是非 ASCII，纯 ASCII 扫描时会被切断成两段，非截断） |
+| `0x903C50` | `english` |
+| `0x903C60` | `gui\font\` |
+| `0x903C6C` | **`stuff\text\`**（格式前缀，紧随语言名之后） |
+| `0x903C78` | `***TEXT STRING ERROR*** No valid name entry in character text file` |
+
+即引擎用 `stuff\text\` + 语言小写名 拼出**角色名文本文件**路径，并由
+「character text file」这句错误串佐证其用途。另一个字面量 `american.txt` 在
+`0x905D74`，与平台表 `wii/psp/ps3/ps2/360/trc.csv/american` 相邻。
+
+**各文件实测状态**（`GAME2.dat` 内，本机安装的 v2.1.0）：
+
+| 文件 | 大小 | 汉字 | 假名 | 判定 |
+|---|---|---|---|---|
+| `english.txt` | 26,821 | **2,337** | 0 | 已被汉化（480 行，id 190..990） |
+| `american.txt` | 323 | 75 | 0 | 已被汉化（仅 7 条覆盖：181/185/544/656/802/818/860） |
+| `japanese.txt` | 43,464 | 2,455 | **8,340** | **未动**，是别的游戏的日文 |
+| `french.txt` / `german.txt` | 38,039 / 39,643 | 0 | 0 | 未动 |
+
+**`japanese.txt` 的真实身份**：981 行，首行 `20 "LEGO スタ-・ウォ-ズ II"`，
+片假名 4,903 + 平假名 3,437，全文 **0 次**提及 Indiana / インディ / スカル。
+即**乐高星球大战 II 的日文**，是 TT Games 共用引擎资产残留，与 Indy2 无关。
+
+> 之前记录的「含 2455 个汉字」是被 UTF-8 解码后的统计口径误导 —— 那是日文里的
+> **汉字（kanji）**，不是中文。加上片假名/平假名后才看得出它整份是日文。
+
+**为什么能断定英文槽不读它**：当前 v2.1.0 构建**完全没有触碰** `japanese.txt`
+（工具链里没有任何一处写它），而汉化用户看到的角色名是中文的 ⇒ 英文槽读的必然是
+`english.txt`。若 `japanese.txt` 在链上，玩家会看到星战的日文人名。
+
+**`assets/fonts/japanese.txt` 是误命名**：27,680 字节、480 行、id 190..990、
+注释头与 `english.txt` 完全一致、0 假名 / 1,206 汉字 / 14,800 拉丁字母 —— 它是
+**早期「日语槽方案」时期的 `english.txt` 快照**（那时引擎读 `japanese.txt`，
+所以得给这份文件填中文），不是日文文件，也不是 DAT 里那份。此前「两者对不上」
+的记录由此解释清楚。
+
+**因此**：繁体版**不需要**翻译 `japanese.txt`；反过来，若用户机器上残留
+`LanguageVal=1041`（旧版 `tools/set_language.py` 写过），游戏会切到日语槽 →
+读星战日文 + `text.csv` 的 195 条真实日文。这是旧方案的遗留风险，发布版应确保
+语言值为 1033（本机 HKCU/HKLM 三处实测均为 1033）。
 
 ### 2.4 字体容器 `.FNT`
 
