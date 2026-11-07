@@ -1,5 +1,5 @@
 ﻿================================================================================
-  LEGO Indiana Jones 2 汉化补丁 v2.0.0
+  LEGO Indiana Jones 2 汉化补丁 v2.1.0
   《乐高印第安纳琼斯 2：冒险再续》简体中文 —— 纯文本安装说明
 ================================================================================
 
@@ -21,13 +21,23 @@
 
   完整补丁包分两个分卷发布在 GitHub Releases：
 
-    LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip
+    LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0_part1.zip
         安装.ps1 / 卸载.ps1 / lib / 说明文档
         data\GAME.dat / data\d3d9.dll / data\Audio\_VO
-    LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip
+    LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0_part2.zip
         data\GAME2.dat
 
   两个压缩包必须解到同一个目录，缺一个都装不上（脚本自检会报错）。
+
+  —— 仅存档修复（独立小包，可选）——
+  如果你只想要存档修复、不要汉化，单独下载这一个包即可，无需上面的完整汉化包：
+
+    LEGO_Indiana_Jones2_SaveFix_v2.1.0.zip
+        dinput8.dll + 安装-仅存档修复.ps1 + 卸载-仅存档修复.ps1 + lib + 说明
+
+  解压后右键「安装-仅存档修复.ps1」→「使用 PowerShell 运行」，脚本会自动定位
+  游戏目录并把 dinput8.dll 放进去。它只修存档、不汉化，与中文补丁的 d3d9.dll
+  互不冲突。
 
   1. 先解压 part1.zip 到任意位置（例如桌面）
   2. 再把 part2.zip 解到同一个文件夹（选「替换」/「合并」）
@@ -68,7 +78,7 @@
          - 定位游戏目录（注册表 → Steam 库清单 → 全盘枚举，四级定位）
          - 把原版 GAME.dat / GAME2.dat 备份到游戏目录下的 backup_chs
          - 写入汉化版 GAME.dat / GAME2.dat
-         - 安装 d3d9.dll 代理（存档修复 + 设置菜单中文化）
+         - 安装 d3d9.dll 代理（汉化 + 存档修复 + 设置菜单中文化）
          - 安装角色语音修复（Audio\_VO）
          - 写入 1920x1080 默认分辨率
        整个过程约 2 到 4 分钟，需复制约 2 GB 数据
@@ -150,7 +160,7 @@
         data\GAME2.dat   ->    GAME2.dat
         data\d3d9.dll    ->    d3d9.dll
 
-    装完后游戏目录里只有这一个 d3d9.dll 就够了。
+    装完后游戏目录里只需 d3d9.dll 一个补丁文件（汉化 + 存档修复 + 设置菜单中文化）。
     不需要再去 C:\Windows 里复制什么文件，也不需要 d3d9_orig.dll。
 
 
@@ -189,10 +199,13 @@
       输入游戏目录，按提示把路径粘贴进去即可（最多可重试 3 次）。
 
   Q3  存档会跳出或无法存档？
-      本补丁已内置存档修复（d3d9.dll），无需修改系统区域。
-      请确认游戏目录里有 d3d9.dll 这一个文件就够了。早期版本要求同时存在
-      d3d9_orig.dll，那个方案已废弃 —— 缺了它游戏会启动即崩，现在不再
-      需要它。
+      本补丁已内置存档修复（d3d9.dll 含存档修复），无需修改系统区域。
+      游戏目录里有 d3d9.dll 一个文件即可。早期版本要求同时存在 d3d9_orig.dll，
+      那个方案已废弃 —— 缺了它游戏会启动即崩，现在不再需要它。
+
+      若你不想装汉化、只要修存档：去 Release 下载独立的
+      LEGO_Indiana_Jones2_SaveFix_v2.1.0.zip，跑里面的「安装-仅存档修复.ps1」
+      即可，完全不涉及汉化包。
 
   Q4  分辨率怎么调？
       安装时会写入 1920x1080 默认值；也可进游戏 Options 里调整。
@@ -233,7 +246,7 @@
 
     data\GAME.dat        游戏主数据（含中文字体）
     data\GAME2.dat       游戏数据（含全部中文文本）
-    data\d3d9.dll        存档修复 + 设置菜单中文化
+    data\d3d9.dll        汉化 + 存档修复 + 设置菜单中文化
     data\Audio\_VO\      角色语音修复（46 个文件）
     安装.ps1             一键安装脚本
     卸载.ps1             一键卸载还原脚本

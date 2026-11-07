@@ -45,7 +45,7 @@ $script:LegoExeName = 'LEGOIndy2.exe'
 #   - 删除全部 .bat，改为纯 PowerShell（需 Windows PowerShell 5.1 或
 #     PowerShell 7+）。按旧文档双击 .bat 的用户会找不到文件。
 #   - 移除注册表写入。
-$script:PatchVersion = '2.0.0'
+$script:PatchVersion = '2.1.0'
 
 
 function Write-Step {

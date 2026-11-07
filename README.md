@@ -7,20 +7,32 @@
 > 🈶 **成品补丁可直接下载** —— GitHub Release 提供完整可安装包（含汉化 DAT），无需自行构建。
 > 🛠️ **仓库同时提供全部原料与工具** —— 想自己重建、或想审校译文的玩家，这里是完整工程。
 
-📍 发布页：<https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.0.0>
+📍 发布页：<https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.1.0>
 
 ---
 
 ## 📦 直接下载使用
 
+### 完整汉化包（两个分卷）
+
 补丁成品分两个分卷发布在 GitHub Releases（单卷接近 1 GB，故拆开）：
 
 | 分卷 | 内容 |
 | --- | --- |
-| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
-| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip` | `data\GAME2.dat` |
+| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
+| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0_part2.zip` | `data\GAME2.dat` |
 
 **两个包必须解到同一个目录**，然后右键 `安装.ps1` →「使用 PowerShell 运行」。全程约 2–4 分钟，无需管理员权限，无需改动系统区域。
+
+### 仅存档修复（独立小包，可选）
+
+如果你**只想要存档修复、不要汉化**，单独下载这一个包即可，无需下载上面的完整汉化包：
+
+| 包 | 内容 |
+| --- | --- |
+| `LEGO_Indiana_Jones2_SaveFix_v2.1.0.zip` | `dinput8.dll` + `安装-仅存档修复.ps1` + `卸载-仅存档修复.ps1` + `lib\Common.ps1` + 说明 |
+
+解压后右键 `安装-仅存档修复.ps1` →「使用 PowerShell 运行」，脚本会自动定位游戏目录并把 `dinput8.dll` 放进去。它不改动任何游戏内容、不汉化，与中文补丁的 `d3d9.dll` 互不冲突。
 
 📖 详细步骤见 [`patch/安装说明.md`](patch/安装说明.md)（图文版）或 `patch/安装说明.txt`（纯文本版）。
 
@@ -38,7 +50,7 @@
 - 🈶 **完整中文文本**：1927+ 行游戏文本全部汉化，覆盖主菜单、章节、角色、关卡、载具、作弊码、教程、网络联机、以及关卡编辑器（Builder）全套界面
 - 🔠 **中文字体**：微软雅黑渲染，包含 1400+ 字符（1200+ 汉字）。字形源自专有系统字体，随包分发的位图另有授权问题；改用可自由分发的开源字体（霞鹜文楷 / 思源宋体）已在计划中，见 [`docs/TODO.md`](docs/TODO.md)
 - ⚙️ **设置菜单汉化**：40 个界面标签 / 80 处显示点。这批标签硬编码在 exe 里、不在 DAT 中，靠 `d3d9.dll` 在运行时改指针完成 —— 不改游戏文件，故不触发 Steam 校验；按键名（Left / Space 等）按设计保持英文
-- 💾 **存档修复**：内置 d3d9 代理 DLL，修复中文系统下存档跳出 / 无法保存的问题（无需再把系统区域改成土耳其语）
+- 💾 **存档修复**：`d3d9` 代理 DLL 修复中文系统下存档跳出 / 无法保存的问题（无需改系统区域）；另有独立 `dinput8.dll` 组件可单独下载，只修存档、不汉化
 - 🔊 **角色语音修复**：补齐 PC 版缺失的 46 个角色语音文件（跳跃 / 受伤 / 攻击 / 死亡音效）
 - 🖥️ **1080p 默认分辨率**：自动写入 `pcconfig.txt`
 - ⚡ **一键安装 / 卸载**：右键运行 PowerShell 脚本即可，自动备份原版文件
@@ -73,7 +85,8 @@ PY
 
 | 想做什么 | 从哪儿开始 |
 | --- | --- |
-| 我只想装汉化 | 去 [Releases](https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.0.0) 下两个分卷，解到同一目录，跑 `安装.ps1` |
+| 我只想装汉化 | 去 [Releases](https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.1.0) 下两个分卷，解到同一目录，跑 `安装.ps1` |
+| 我只想修存档、不要汉化 | 去 [Releases](https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.1.0) 下独立的 `LEGO_Indiana_Jones2_SaveFix_v2.1.0.zip`，跑 `安装-仅存档修复.ps1` |
 | 我想审校 / 补翻译文 | 改 [`translations/text.csv`](translations/text.csv)，然后按下面「自行构建」重跑 |
 | 我想复现整个构建链 | 见下面「自行构建」，工具链全在 `tools/` |
 | 我想知道下一步做什么 | 见 [`docs/TODO.md`](docs/TODO.md)（已决事项与待评估项） |
@@ -115,7 +128,13 @@ cd src/d3d9proxy
 gcc -m32 -O2 -shared -o d3d9.dll d3d9proxy.c d3d9.def \
     -Wl,--kill-at -static-libgcc -static-libstdc++
 
-# 3. 把 DLL 放进 patch/payload/data/，然后运行安装脚本
+# 2b. 编译独立存档修复 DLL（dinput8 槽位，不与 d3d9 冲突）
+cd src/savesfix
+gcc -m32 -O2 -shared -o dinput8.dll savesfix.c savesfix.def -Wl,--kill-at \
+    -static-libgcc -static-libstdc++
+#     本机无 MinGW 时，可用 src/savesfix/build_msvc.bat（需 VS2022 构建工具）
+
+# 3. 把两个 DLL 放进 patch/payload/data/，然后运行安装脚本
 #    Windows 上右键 patch/安装.ps1 →「使用 PowerShell 运行」
 ```
 
@@ -125,8 +144,9 @@ gcc -m32 -O2 -shared -o d3d9.dll d3d9proxy.c d3d9.def \
 
 ```bash
 python tools/build_dist.py --game "D:\SteamLibrary\steamapps\common\Lego Indiana Jones 2"
-# 输出：dist/LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip
-#       dist/LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip
+# 输出：dist/LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0_part1.zip
+#       dist/LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0_part2.zip
+#       dist/LEGO_Indiana_Jones2_SaveFix_v2.1.0.zip   （独立存档修复，单独附件）
 ```
 
 各步骤的详细说明见 [`patch/README.md`](patch/README.md)（面向使用者）与 [`docs/`](docs/)（面向开发者）。
@@ -135,9 +155,15 @@ python tools/build_dist.py --game "D:\SteamLibrary\steamapps\common\Lego Indiana
 
 ## 📋 版本与变更
 
-本项目遵循 [语义化版本 2.0.0](https://semver.org/lang/zh-CN/)。**版本号的唯一来源是 `patch/payload/lib/Common.ps1` 里的 `$script:PatchVersion`**（当前 `2.0.0`）—— 那也是给终端用户看的安装包版本，仓库自身以 git tag 为准。
+本项目遵循 [语义化版本 2.0.0](https://semver.org/lang/zh-CN/)。**版本号的唯一来源是 `patch/payload/lib/Common.ps1` 里的 `$script:PatchVersion`**（当前 `2.1.0`）—— 那也是给终端用户看的安装包版本，仓库自身以 git tag 为准。
 
-### 🚀 2.0.0 —— 当前版本
+### 🚀 2.1.0 —— 当前版本
+
+**🆕 新增功能：**
+
+- 💾 **独立存档修复组件（可单独下载）** —— 在完整汉化包之外，Release 额外提供一个独立小包 `LEGO_Indiana_Jones2_SaveFix_v2.1.0.zip`，内含 `dinput8.dll` + 极简安装/卸载脚本。只想要存档修复、不要汉化的用户可单独下载，完全不碰中文补丁
+
+### 🚀 2.0.0
 
 **⚠️ 不兼容改动（故升主版本）：**
 
@@ -171,6 +197,11 @@ python tools/build_dist.py --game "D:\SteamLibrary\steamapps\common\Lego Indiana
 │   ├── d3d9proxy.c         主逻辑：IAT hook + 菜单补丁 + 系统 d3d9 转发
 │   ├── d3d9.def            16 个导出的别名映射
 │   └── ui_patch.h          由 gen_ui_patch.py 生成，勿手改
+├── src/savesfix/         独立存档修复 DLL 源码（C）
+│   ├── savesfix.c          纯存档修复：IAT hook 文件 API + 转发系统 dinput8
+│   ├── savesfix.def        导出 DirectInput8Create 的别名映射
+│   ├── build_msvc.bat      VS2022 32 位编译脚本（无 MinGW 时用）
+│   └── test_savesfix.c     开发期冒烟测试（验证 hook 与转发）
 ├── tools/                53 个 Python 工具（标准库 + ctypes，无三方依赖）
 │   └── build_dist.py         打包分发件（两个分卷的 zip）
 ├── translations/         译文表（KEY → 简体中文）
@@ -202,7 +233,22 @@ python tools/build_dist.py --game "D:\SteamLibrary\steamapps\common\Lego Indiana
 
 游戏是 2009 年的非 Unicode 程序，只用 ANSI 文件 API，且 exe 硬编码了 CP1252/1254 编码的存档目录名（含 `®` `™`）。中文系统（GBK/CP936）下这些字节被内核转成 `?`（非法文件名字符）→ 存档失败跳出。
 
-代理 hook `CreateFileA` 等 9 个 A 版 API，把路径按 CP1254 转成 Unicode 后调 W 版，从而绕过内核的 GBK 转换。纯 ASCII 路径在 CP1254 下映射不变，对其它路径无副作用。
+代理 hook `CreateFileA` 等 10 个 A 版 API，把路径按 CP1254 转成 Unicode 后调 W 版，从而绕过内核的 GBK 转换。纯 ASCII 路径在 CP1254 下映射不变，对其它路径无副作用。
+
+### 💾 存档修复：独立 `dinput8.dll` 组件（无中文补丁覆盖）
+
+上述存档修复逻辑原本内嵌在中文补丁的 `d3d9.dll` 里。现另抽出一份**独立 DLL**
+（`src/savesfix/`，编译产物 `dinput8.dll`），靠劫持游戏静态导入的 `DINPUT8.DLL`
+槽位被加载——该槽位与 `d3d9` 互不冲突，**永远不会覆盖 / 占用中文补丁的 `d3d9.dll`**。
+它做**完全相同**的 IAT hook（CP1254→Unicode 路径修复），并只转发系统 `dinput8.dll`
+唯一的 `DirectInput8Create` 导出。由此带来三点好处：
+
+- 与中文补丁的 `d3d9.dll` 并存时，两处 IAT patch 都指向真实 `kernel32`，互不干扰；
+- 「只想要存档修复、不要汉化」时，可**单独放置**本文件，无需安装整个汉化包；
+- 存档修复作为独立文件，可单独更新 / 替换，不再与汉化代理耦合。
+
+> 注：中文补丁的 `d3d9.dll` 仍保留内嵌的存档修复，因此**只装汉化包**的用户存档修复
+> 照常生效；`dinput8.dll` 是给「想要独立 / 模块化存档修复」的场景用的可选增量。
 
 ### 🧩 代理 DLL 必须自实现全部导出
 

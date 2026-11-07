@@ -1,6 +1,6 @@
 # 🎮 LEGO Indiana Jones 2 简体中文汉化补丁
 
-**版本 2.0.0**　·　遵循 [语义化版本 2.0.0](https://semver.org/lang/zh-CN/)　·　2026-10-14
+**版本 2.1.0**　·　遵循 [语义化版本 2.0.0](https://semver.org/lang/zh-CN/)　·　2026-11-07
 
 《乐高印第安纳琼斯 2：冒险再续》（LEGO Indiana Jones 2: The Adventure Continues）Steam 版完整汉化补丁。
 
@@ -14,12 +14,22 @@
 
 | 分卷 | 内容 |
 | --- | --- |
-| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
-| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0_part2.zip` | `data\GAME2.dat` |
+| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0_part1.zip` | 脚本、`lib/`、说明文档、`data\GAME.dat`、`data\d3d9.dll`、`data\Audio\_VO\` |
+| `LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0_part2.zip` | `data\GAME2.dat` |
 
 > 📌 **两个包必须解到同一个目录**，否则安装脚本的自检会直接报错。
 
-📍 发布页：<https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.0.0>
+📍 发布页：<https://github.com/Janlhin/LEGO_Indiana_Jones2_Simplified_Chinese/releases/tag/2.1.0>
+
+### 💾 仅存档修复（独立小包，可选）
+
+如果你**只想要存档修复、不要汉化**，单独下载这一个包即可，无需下载上面的完整汉化包：
+
+| 包 | 内容 |
+| --- | --- |
+| `LEGO_Indiana_Jones2_SaveFix_v2.1.0.zip` | `dinput8.dll` + `安装-仅存档修复.ps1` + `卸载-仅存档修复.ps1` + `lib\Common.ps1` + 说明 |
+
+解压后右键 `安装-仅存档修复.ps1` →「使用 PowerShell 运行」，脚本会自动定位游戏目录并把 `dinput8.dll` 放进去。它**不改动任何游戏内容、不汉化**，与中文补丁的 `d3d9.dll` 互不冲突——两者并存时两处 IAT patch 都指向真实 `kernel32`，互不干扰。详细说明见包内 `README.md`。
 
 ---
 
@@ -28,7 +38,7 @@
 - 🈶 **完整中文文本**：1927+ 行游戏文本全部汉化，覆盖主菜单、章节、角色、关卡、载具、作弊码、教程、网络联机、以及关卡编辑器（Builder）全套界面
 - 🔠 **中文字体**：微软雅黑渲染，包含 1400+ 字符（1200+ 汉字）
 - ⚙️ **设置菜单汉化**：Video Settings / Screen Resolution / Vertical Sync / Shadows / Bloom 等 40 个界面标签全部中文化（80 处显示点）。这批标签硬编码在 exe 里、不在 DAT 中，靠 `d3d9.dll` 在运行时改指针完成 —— 不改游戏文件，故不触发 Steam 校验；按键名（Left / Space 等）按设计保持英文
-- 💾 **存档修复**：内置 d3d9 代理 DLL，修复了中文系统下存档跳出 / 无法保存的问题（无需再把系统区域改成土耳其语）
+- 💾 **存档修复**：`d3d9` 代理 DLL 修复中文系统下存档跳出 / 无法保存的问题（无需改系统区域）；另有独立 `dinput8.dll` 组件可单独下载，只修存档、不汉化
 - 🔊 **角色语音修复**：补齐 PC 版缺失的 46 个角色语音文件（跳跃 / 受伤 / 攻击 / 死亡音效）
 - 🖥️ **1080p 默认分辨率**：自动写入 `pcconfig.txt`
 - ⚡ **一键安装 / 卸载**：右键运行 PowerShell 脚本即可，自动备份原版文件
@@ -40,7 +50,13 @@
 
 本补丁遵循 [语义化版本 2.0.0](https://semver.org/lang/zh-CN/)：不兼容修改升主版本，向下兼容的新功能升次版本，向下兼容的问题修正升修订号。**版本号的唯一来源是 `lib/Common.ps1` 里的 `$PatchVersion`**，README 与安装说明均引用该值。
 
-### 🚀 2.0.0 —— 当前版本
+### 🚀 2.1.0 —— 当前版本
+
+**🆕 新增功能：**
+
+- 💾 **独立存档修复组件（可单独下载）** —— 在完整汉化包之外，Release 额外提供一个独立小包 `LEGO_Indiana_Jones2_SaveFix_v2.1.0.zip`，内含 `dinput8.dll` + 极简安装/卸载脚本 + 说明。只想要存档修复、不要汉化的用户可单独下载，完全不碰中文补丁。打包由 `build_dist.py` 一并产出
+
+### 🚀 2.0.0
 
 **⚠️ 不兼容改动（故升主版本）：**
 
@@ -108,7 +124,7 @@
 ## 📁 目录结构
 
 ```
-LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0/
+LEGO_Indiana_Jones2_Simplified_Chinese_v2.1.0/
 ├── 安装.ps1         一键安装
 ├── 卸载.ps1         一键还原
 ├── lib/
@@ -119,11 +135,23 @@ LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0/
 └── data/
     ├── GAME.dat      中文字体（GUI 字体）
     ├── GAME2.dat     中文文本库
-    ├── d3d9.dll      存档修复（无需其他 DLL 配合）
+    ├── d3d9.dll      汉化 + 存档修复（无需其他 DLL 配合）
     └── Audio/_VO/    角色语音修复（46 个文件）
 ```
 
 > 💡 `GAME0.dat` / `GAME1.dat` 是游戏自带的纯资源归档，**不含任何文本或字体**，因此无需汉化、无需随包分发。
+
+### 独立存档修复包的目录结构
+
+```
+LEGO_Indiana_Jones2_SaveFix_v2.1.0/
+├── 安装-仅存档修复.ps1     一键安装（只部署 dinput8.dll）
+├── 卸载-仅存档修复.ps1     一键卸载（只移除 dinput8.dll）
+├── lib/
+│   └── Common.ps1         公共函数库（定位游戏目录等）
+├── README.md              本组件的说明
+└── dinput8.dll            存档修复组件本体（约 88 KB）
+```
 
 ---
 
@@ -134,7 +162,7 @@ LEGO_Indiana_Jones2_Simplified_Chinese_v2.0.0/
 - 📦 **DAT 归档**（MkDat v4.0）：解析信息块 / 文件表 / 名字树 / CRC 结构，通过「名字树叶子 `next` 字段即文件索引」绕开未公开的哈希算法，实现不改名不加文件的原地内容替换
 - 🔠 **FT2 / NFNT 字体**（TNFN 魔数）：大端结构（头部 + posTable + charsTable + kerning + 内嵌 DXT5 DDS），charsTable 使用 Unicode 码点索引，原生支持 CJK
 - 🖌️ **字体构建**：ctypes 调 GDI32 栅格化 + 纯标准库 DXT5 编解码，字形 advance 对齐原版语义
-- 💾 **存档修复**：d3d9.dll 代理 + IAT hook，拦截 ANSI 文件 API，按 CP1254 转换路径绕开内核 GBK 编码错误（根因：游戏硬编码了 `LEGO® Indiana Jones™ 2` 的 CP1252/1254 字节，中文代码页下 `®` / `™` 被误译成非法文件名字符）
+- 💾 **存档修复**：d3d9.dll 代理 + IAT hook，拦截 ANSI 文件 API，按 CP1254 转换路径绕开内核 GBK 编码错误（根因：游戏硬编码了 `LEGO® Indiana Jones™ 2` 的 CP1252/1254 字节，中文代码页下 `®` / `™` 被误译成非法文件名字符）。另提供独立 `dinput8.dll` 组件：它劫持游戏静态导入的 `DINPUT8.DLL` 槽位（仅转发其唯一的 `DirectInput8Create` 导出），做**完全相同**的 IAT hook，但**不占用、不覆盖**中文补丁的 `d3d9.dll` 槽位——因此「只想要存档修复、不要汉化」时可单独放置本文件；与 `d3d9.dll` 并存时两处 IAT patch 都指向真实 `kernel32`，互不影响
 - 🧩 **代理 DLL 自实现导出**：游戏用 `LoadLibraryA("d3d9.dll")` + `GetProcAddress("Direct3DCreate9")` 运行时动态加载 d3d9，代理必须自己提供导出。DLL 在运行时按 `IsWow64Process` 判断位数，只加载 32 位那份系统 d3d9（64 位系统的 32 位副本在 `SysWOW64`），再转发过去。因此补丁目录里只需一个 `d3d9.dll`，跨 Windows 版本自适应，不需要附带任何系统文件副本
 - ⚙️ **设置菜单标签汉化（改指针而非改字符串）**：设置菜单的英文（Video Settings 等）不在 DAT 里，硬编码在 exe 的 `.rdata`，且每条串后面紧跟下一条、**零余量**，原地替换中文放不下；改 exe 文件又会触发 Steam DRM（`.bind` 节可执行 + STEAM 标记）。最终方案是发现 exe `.data` 节里有一张**多语言 UI 字符串指针表**（`0xAB09F0`–`0xAB17DC`，每项 **8 字节** `{char* text; uint32 id;}`，`char*` 指向 `.rdata` 里的实际字符串），四类内容挤在同一张表里：cvar 名（`pcconfig.txt` 的键名，**绝对不能动**）／英文 UI 两份／法语／匈牙利语。补丁只把英文那 **80 处指针（两份各 40 项）**改指向自备的 UTF-8 字符串缓冲区——指针本身 4 字节大小不变，因此不受零余量限制，不碰文件、不触发 DRM，也不影响 cvar 与其他语言
   - 🔤 **编码是 UTF-8，不是系统 ANSI**（此处曾走错弯路）：先因「这是 ANSI 程序、存档路径在中文系统下出错」，推断 UI 也走系统 ANSI，注入 GBK —— 结果菜单显示为**一排问号**。而问号正是**严格 UTF-8 解码器**把每个非法字节替换成 `?` 的典型表现（若解码器是 CP1252，非法字节会变成西欧字母而非问号；若是 CP936/GBK，本该正常显示）。据此回头查证：exe 自带的多语言串里俄语 «Вернуть» «Качество» «Использовать» «Улучшенная» 全部是合法 UTF-8，按 CP1252 / CP1254 / GBK 解均为乱码；DAT 内的中文文本同样解出通顺的「正在保存游戏」。故 UI 文本管线吃 UTF-8。DLL 内的中文常量全部预编码为 UTF-8，并逐字节写成 `\xNN` 转义，使字节不受源文件编码与编辑器影响；`check_exports.py` 会抽样确认 7 个标签以 UTF-8 存在且无 GBK 残留
