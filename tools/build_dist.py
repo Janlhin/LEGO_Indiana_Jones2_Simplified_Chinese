@@ -34,6 +34,12 @@ GitHub Release 单个附件上限 2 GB，而两个 DAT 压缩后仍逼近这条�
 
     LEGO_Indiana_Jones2_SaveFix_v<版本>.zip   dinput8.dll + 仅存档修复安装/卸载脚本 + 说明
 
+打包前校验
+----------
+写盘之前会跑 `check_packaged_links()`：解析包内每个 Markdown 的相对链接，
+凡是指向仓库专有路径（`tools/`、`src/`、`docs/` 等，玩家手里不存在）的直接报错中止，
+避免把死链打进包里。绝对 URL、页内锚点、指向包内已存在文件的链接均放行。
+
 
 用法::
 
@@ -43,6 +49,7 @@ GitHub Release 单个附件上限 2 GB，而两个 DAT 压缩后仍逼近这条�
 import argparse
 import hashlib
 import os
+import posixpath
 import re
 import shutil
 import sys
@@ -134,6 +141,46 @@ def write_zip(path, top, items, level):
     return os.path.getsize(path)
 
 
+# Markdown 内联链接/图片：![alt](path) 与 [text](path)
+LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
+# 不需要校验的链接前缀
+LINK_SKIP_PREFIX = ("http://", "https://", "mailto:", "#")
+
+
+def check_packaged_links(items):
+    """打包前校验：包内 Markdown 的相对链接必须落在包内。
+
+    包里只有脚本、文档与 data/，玩家手里点不到仓库里的 tools/、src/、docs/ 等路径。
+    链接写成绝对 URL、页内锚点，或指向包内已存在的文件才算合格。
+
+    items 为 [(zip 内路径, 磁盘来源)]；用 zip 内路径集合当「包内可及」的判据。
+    返回死链列表 [(包内路径, 原链接)]，空列表表示通过。
+    """
+    names = {arc for arc, _ in items}
+    dead = []
+    for arc, src in items:
+        if not arc.lower().endswith(".md"):
+            continue
+        try:
+            with open(src, "r", encoding="utf-8-sig") as fh:
+                text = fh.read()
+        except (OSError, UnicodeDecodeError):
+            continue
+        base = posixpath.dirname(arc)
+        for link in LINK_RE.findall(text):
+            if link.startswith(LINK_SKIP_PREFIX):
+                continue
+            target = link.split("#", 1)[0].split("?", 1)[0]
+            if not target:
+                continue
+            resolved = posixpath.normpath(posixpath.join(base, target))
+            if resolved.startswith(".."):
+                dead.append((arc, link))
+            elif resolved not in names and not any(n.startswith(resolved + "/") for n in names):
+                dead.append((arc, link))
+    return dead
+
+
 def main():
     ap = argparse.ArgumentParser(description="打包 LEGO Indiana Jones 2 汉化补丁分发包")
     ap.add_argument("--game", required=True, help="游戏目录（含 GAME.dat / GAME2.dat / d3d9.dll）")
@@ -170,6 +217,17 @@ def main():
 
     # 独立存档修复组件永远单独成包（体积极小，无需分卷）
     outputs.append((os.path.join(a.out, sf_top + ".zip"), savesfix, sf_top))
+
+    # 先校验再写盘：包内文档若引用了仓库专有路径，玩家点开就是死链。
+    # 放在写盘之前，避免发现时已经把 1.8 GB 白写一遍。
+    dead = []
+    for _path, group, _t in outputs:
+        dead.extend(check_packaged_links(group))
+    if dead:
+        print("包内文档存在指向包外的相对链接：")
+        for arc, link in dead:
+            print("  %s -> %s" % (arc, link))
+        raise SystemExit("已中止（未生成任何包）。请改成绝对 URL，或只指向包内文件。")
 
     for path, group, t in outputs:
         size = write_zip(path, t, group, a.level)
