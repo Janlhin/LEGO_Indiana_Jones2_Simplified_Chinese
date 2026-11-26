@@ -188,6 +188,11 @@ python tools/build_dist.py --game "D:\SteamLibrary\steamapps\common\Lego Indiana
 
 > 完整的提交级变更记录见 `git log`，详见 [`CHANGELOG.md`](CHANGELOG.md)。
 
+## 治理文档
+
+- 安装 / 卸载 / 回滚 / 版本兼容 / 校验与打包：[`docs/release-and-rollback.md`](docs/release-and-rollback.md)
+- 发布前检查清单：[`docs/release-checklist.md`](docs/release-checklist.md)
+
 ---
 
 ## 📁 仓库结构
