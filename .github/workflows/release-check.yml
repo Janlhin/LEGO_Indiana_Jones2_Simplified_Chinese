@@ -1,0 +1,38 @@
+name: release-check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Governance docs present
+        run: |
+          test -f docs/release-and-rollback.md
+          test -f docs/release-checklist.md
+          test -f CHANGELOG.md
+      - name: Verify dist packages when present
+        run: |
+          if ls dist/*.zip >/dev/null 2>&1; then
+            python tools/verify_dist.py
+          else
+            echo "dist 未入库，跳过分发包校验；发布时在本机执行 python tools/verify_dist.py"
+          fi
